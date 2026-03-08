@@ -147,7 +147,7 @@ public extension DiggerCache {
         }
     }
 
-    /// systemFreeSize
+    // systemFreeSize
 
     static func systemFreeSize() -> Int64 {
         do {

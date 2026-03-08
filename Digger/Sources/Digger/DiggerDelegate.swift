@@ -46,7 +46,7 @@ extension DiggerDelegate: URLSessionDataDelegate, URLSessionDelegate {
             notifyCompletionCallback(.success(cachesURL), diggerSeed)
             return
         }
-        /// status code
+        // status code
         if let statusCode = (response as? HTTPURLResponse)?.statusCode,
            !(200 ..< 400).contains(statusCode)
         {
@@ -151,7 +151,6 @@ extension DiggerDelegate {
             diggerLog(error)
 
         case let .success(url):
-
             DiggerCache.moveItem(atPath: diggerSeed.tempPath, toPath: diggerSeed.cachePath)
 
             diggerLog("download success \n" + url.absoluteString)
@@ -197,7 +196,7 @@ extension DiggerDelegate {
         }
     }
 
-    /// speed should be zero, when cancel or suspend
+    // speed should be zero, when cancel or suspend
 
     public func notifySpeedZeroCallback(_ diggerSeed: DiggerSeed) {
         DispatchQueue.main.safeAsync {

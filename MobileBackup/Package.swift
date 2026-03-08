@@ -21,7 +21,7 @@ let package = Package(
             ],
             cSettings: [
                 .unsafeFlags(["-w"]),
-                .define("PACKAGE_VERSION=\"54f6437c\""),
+                .define("PACKAGE_VERSION=\"c4f11180\""),
                 .define("PACKAGE_URL=\"UNAVAILABLE\""),
                 .define("PACKAGE_BUGREPORT=\"UNAVAILABLE\""),
             ]

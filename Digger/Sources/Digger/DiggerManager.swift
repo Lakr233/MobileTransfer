@@ -23,7 +23,7 @@ public protocol DiggerManagerProtocol {
 
     var timeout: TimeInterval { set get }
 
-    /// Start the task at once,default is true
+    // Start the task at once,default is true
 
     var startDownloadImmediately: Bool { set get }
 
@@ -103,9 +103,7 @@ open class DiggerManager: DiggerManagerProtocol {
         sessionConfiguration.allowsCellularAccess = allowsCellularAccess
         sessionConfiguration.httpMaximumConnectionsPerHost = maxDownloadTasksCount
         sessionConfiguration.httpAdditionalHeaders = additionalHTTPHeaders
-        let session = URLSession(configuration: sessionConfiguration, delegate: diggerDelegate, delegateQueue: delegateQueue)
-
-        return session
+        return URLSession(configuration: sessionConfiguration, delegate: diggerDelegate, delegateQueue: delegateQueue)
     }
 
     ///  download file

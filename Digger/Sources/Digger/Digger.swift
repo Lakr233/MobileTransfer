@@ -10,7 +10,7 @@ import Foundation
 
 public let digger = "Digger"
 
-/// start download with url
+// start download with url
 
 @discardableResult
 public func download(_ url: DiggerURL) -> DiggerSeed {

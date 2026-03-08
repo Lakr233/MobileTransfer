@@ -29,9 +29,9 @@ enum MacAddress {
         return matchingServices
     }
 
-    // Given an iterator across a set of Ethernet interfaces, return the MAC address of the last one.
-    // If no interfaces are found the MAC address is set to an empty string.
-    // In this sample the iterator should contain just the primary interface.
+    /// Given an iterator across a set of Ethernet interfaces, return the MAC address of the last one.
+    /// If no interfaces are found the MAC address is set to an empty string.
+    /// In this sample the iterator should contain just the primary interface.
     static func GetMACAddress(_ intfIterator: io_iterator_t) -> [UInt8]? {
         var macAddress: [UInt8]?
 

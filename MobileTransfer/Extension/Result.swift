@@ -8,5 +8,7 @@
 import Foundation
 
 public extension Result where Success == Void {
-    static func success() -> Self { .success(()) }
+    static func success() -> Self {
+        .success(())
+    }
 }

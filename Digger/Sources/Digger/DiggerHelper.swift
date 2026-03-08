@@ -47,8 +47,7 @@ public func diggerLog(_ info: some Any, file: NSString = #file, method: String =
         print("file   : " + "\(file.lastPathComponent)" + "\n"
             + "method : " + "\(method)" + "\n"
             + "line   : " + "[\(line)]:" + "\n"
-            + "info   : " + "\(info)"
-        )
+            + "info   : " + "\(info)")
     }
 }
 
