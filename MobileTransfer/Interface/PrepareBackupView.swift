@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PrepareBackupView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {

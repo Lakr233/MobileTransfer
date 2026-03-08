@@ -9,7 +9,7 @@ import Lottie
 import SwiftUI
 
 struct WelcomeView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var body: some View {
         VStack(spacing: 0) {

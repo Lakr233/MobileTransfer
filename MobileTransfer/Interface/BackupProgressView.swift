@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BackupProgressView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var hint: LocalizedStringKey {
         if let tvm = vm.backupTask {
@@ -37,7 +37,7 @@ struct BackupProgressView: View {
                         .transition(.opacity.combined(with: .scale(scale: 0.9)))
                         .foregroundColor(tvm.verificationStatus == .failed ? .red : .accent)
                         .underline(tvm.verificationStatus == .failed)
-                        .onChange(of: tvm.verificationStatus) { newValue in
+                        .onChange(of: tvm.verificationStatus) { _, newValue in
                             if newValue == .failed {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     let info = Archives.validateRestoreArchive(at: tvm.parameter.backupLocation)

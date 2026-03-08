@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestoreArchivePickerView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var title: String {
         NSLocalizedString("Please choose a backup to restore.", comment: "")

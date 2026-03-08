@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InstallApplicationTaskView: View {
-    @StateObject var task: MobileInstallTask
+    var task: MobileInstallTask
 
     var overall: String {
         "\(Int(task.progress.fractionCompleted * 100))%"

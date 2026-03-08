@@ -14,7 +14,7 @@ struct LicenseInfoView: View {
     let title: LocalizedStringKey = "License"
     let spacing: CGFloat = 16
 
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
     @Environment(\.dismiss) var dismiss
 
     @State private var counter: Int = 0
@@ -63,7 +63,7 @@ struct LicenseInfoView: View {
                         secondaryButton: .cancel()
                     )
                 }
-                Button("Contact Us") { }
+                Button("Contact Us") {}
                 Spacer()
                 Button("OK") {
                     dismiss()
@@ -83,7 +83,6 @@ struct LicenseInfoView: View {
         .onAppear { counter += 1 }
     }
 
-    @ViewBuilder
     var content: some View {
         Group {
             HStack(alignment: .firstTextBaseline, spacing: 16) {

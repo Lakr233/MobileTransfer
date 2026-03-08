@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MergeRestoreCheckView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     typealias ExecutionBlock = () -> Void
     let onConfirm: ExecutionBlock?
@@ -66,7 +66,6 @@ struct MergeRestoreCheckView: View {
         .onAppear { scan() }
     }
 
-    @ViewBuilder
     var content: some View {
         VStack(alignment: .leading, spacing: 8) {
             if checking {

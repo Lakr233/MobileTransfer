@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct RestorePasswordView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     @State var helpURL: String?
 
     let inset: CGFloat = 4
 
     var body: some View {
+        @Bindable var vm = vm
         CardContentView {
             CardContentHeader(icon: "key", title: "Password") {
                 if vm.restorePassword.isEmpty {

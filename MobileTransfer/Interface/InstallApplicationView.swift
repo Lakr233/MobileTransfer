@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InstallApplicationView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     @State var openPreRestore = false
 

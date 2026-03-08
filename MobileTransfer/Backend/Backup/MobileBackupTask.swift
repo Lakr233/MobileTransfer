@@ -9,6 +9,7 @@ import AppleMobileDeviceLibrary
 import AuxiliaryExecute
 import Combine
 import Foundation
+import Observation
 
 private let dateFormatter = {
     let formatter = DateFormatter()
@@ -21,7 +22,8 @@ private let ignoredKeywords = [
     "Receiving files",
 ]
 
-class MobileBackupTask: ObservableObject, Identifiable {
+@Observable
+class MobileBackupTask: Identifiable {
     var id: UUID = .init()
     let date: Date = .init()
 
@@ -32,13 +34,23 @@ class MobileBackupTask: ObservableObject, Identifiable {
     }
 
     let config: Configuration
+
+    @ObservationIgnored
     var cancellable: Set<AnyCancellable> = []
+
+    @ObservationIgnored
+    let throttledSubject = PassthroughSubject<Void, Never>()
+
     init(config: Configuration) {
         self.config = config.codableCopy()!
         throttledSubject
             .throttle(for: .seconds(0.2), scheduler: DispatchQueue.global(), latest: true)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in self?.objectWillChange.send() }
+            .sink { [weak self] in
+                guard let self else { return }
+                // Touch observable properties to notify observers
+                _output = _output
+            }
             .store(in: &cancellable)
     }
 
@@ -48,27 +60,52 @@ class MobileBackupTask: ObservableObject, Identifiable {
         let text: String
     }
 
-    var output: [Log] = [] {
-        didSet { throttledSubject.send() }
-    }
-
-    let throttledSubject = PassthroughSubject<Void, Never>()
-
-    var overall: Progress = .init() {
-        didSet {
-            guard current != oldValue else { return }
+    @ObservationIgnored
+    private var _output: [Log] = []
+    var output: [Log] {
+        get {
+            access(keyPath: \.output)
+            return _output
+        }
+        set {
+            withMutation(keyPath: \.output) {
+                _output = newValue
+            }
             throttledSubject.send()
         }
     }
 
-    var current: Progress = .init() {
-        didSet {
-            guard current != oldValue else { return }
+    @ObservationIgnored
+    private var _overall: Progress = .init()
+    var overall: Progress {
+        get {
+            access(keyPath: \.overall)
+            return _overall
+        }
+        set {
+            guard _overall != newValue else { return }
+            withMutation(keyPath: \.overall) {
+                _overall = newValue
+            }
             throttledSubject.send()
         }
     }
 
-    private let currentSubject = PassthroughSubject<Progress, Never>()
+    @ObservationIgnored
+    private var _current: Progress = .init()
+    var current: Progress {
+        get {
+            access(keyPath: \.current)
+            return _current
+        }
+        set {
+            guard _current != newValue else { return }
+            withMutation(keyPath: \.current) {
+                _current = newValue
+            }
+            throttledSubject.send()
+        }
+    }
 
     enum BackupError: Error {
         case unknown
@@ -78,7 +115,7 @@ class MobileBackupTask: ObservableObject, Identifiable {
         case terminated
     }
 
-    @Published var error: BackupError? = nil
+    var error: BackupError?
 
     enum BackupStatus {
         case initialized
@@ -86,13 +123,21 @@ class MobileBackupTask: ObservableObject, Identifiable {
         case completed
     }
 
-    @Published var status: BackupStatus = .initialized
-    var executing: Bool { status == .executing || pid != nil }
-    var completed: Bool { [.completed].contains(status) }
-    var success: Bool { error == nil }
+    var status: BackupStatus = .initialized
+    var executing: Bool {
+        status == .executing || pid != nil
+    }
 
-    @Published var pid: pid_t? = nil
-    @Published var recp: AuxiliaryExecute.ExecuteReceipt? = nil
+    var completed: Bool {
+        [.completed].contains(status)
+    }
+
+    var success: Bool {
+        error == nil
+    }
+
+    var pid: pid_t?
+    var recp: AuxiliaryExecute.ExecuteReceipt?
 
     func start() {
         guard status == .initialized else { return }
@@ -182,6 +227,7 @@ class MobileBackupTask: ObservableObject, Identifiable {
         }
     }
 
+    @ObservationIgnored
     private var buffer = ""
     private func decodeOutput(_ output: String) {
         buffer += output

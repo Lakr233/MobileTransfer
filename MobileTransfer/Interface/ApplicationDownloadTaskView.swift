@@ -19,7 +19,7 @@ private let imageResizer = Kingfisher.ResizingImageProcessor(
 )
 
 struct ApplicationDownloadTaskView: View {
-    @StateObject var task: MobileAppConnectTask
+    var task: MobileAppConnectTask
 
     var overall: String {
         "\(Int(task.progress * 100))%"
@@ -105,7 +105,7 @@ struct ApplicationDownloadTaskView: View {
 }
 
 private struct ApplicationDownloadTaskSingleElementView: View {
-    @StateObject var app: MobileAppConnectTask.DownloadTask
+    var app: MobileAppConnectTask.DownloadTask
 
     var desc: LocalizedStringKey {
         if let error = app.error {

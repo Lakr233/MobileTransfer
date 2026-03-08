@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PrepareRestoreView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var restorable: Bool {
         [
@@ -40,7 +40,8 @@ struct PrepareRestoreView: View {
                     RestoreModePickerView()
                         .frame(maxWidth: .infinity)
                         .transition(
-                            .opacity.combined(with: .scale(scale: 0.95)))
+                            .opacity.combined(with: .scale(scale: 0.95))
+                        )
                 }
 
                 Button {
@@ -204,7 +205,7 @@ struct PrepareRestoreView: View {
         guard let device else { return false }
         return device.store.value as? Bool ?? false
     }
-    
+
     func checkIfBackupVersionMatchesRequirements() -> Bool {
         guard let udid = vm.deviceIdentifier else {
             assertionFailure()
@@ -226,7 +227,7 @@ struct PrepareRestoreView: View {
         assert(deviceVersion.count == backupVersion.count)
         return deviceVersion.lowercased() >= backupVersion.lowercased()
     }
-    
+
     func replaceBackupManifestWithCurrentSystemVersion() {
         guard let udid = vm.deviceIdentifier else { return }
         guard let window = NSApp.mainWindow else { return }
@@ -241,7 +242,7 @@ struct PrepareRestoreView: View {
             assertionFailure()
             return
         }
-              
+
         let alert = NSAlert()
         alert.messageText = NSLocalizedString(
             "Modify Backup Manifest",
@@ -249,8 +250,8 @@ struct PrepareRestoreView: View {
         )
         alert.informativeText = String(
             format: NSLocalizedString(
-            "The backup manifest created by %@ will be modified to match the current device system version %@ (%@). This may cause issues during restore. Please proceed with caution.",
-            comment: ""
+                "The backup manifest created by %@ will be modified to match the current device system version %@ (%@). This may cause issues during restore. Please proceed with caution.",
+                comment: ""
             ),
             vm.restoreArchiveSystemBuildVersion,
             deviceProductVersion,
@@ -262,16 +263,16 @@ struct PrepareRestoreView: View {
         alert.alertStyle = .warning
         alert.beginSheetModal(for: window) { response in
             if response != .alertFirstButtonReturn { return }
-            
+
             do {
-                let backup = URL(fileURLWithPath: try vm.restoreLocation.get())
-                
+                let backup = try URL(fileURLWithPath: vm.restoreLocation.get())
+
                 do {
                     let manifestPath = backup
                         .appendingPathComponent("Manifest")
                         .appendingPathExtension("plist")
                     let dic = try PropertyListSerialization.propertyList(
-                        from: try Data(contentsOf: manifestPath),
+                        from: Data(contentsOf: manifestPath),
                         options: [],
                         format: nil
                     )
@@ -289,13 +290,13 @@ struct PrepareRestoreView: View {
                     )
                     try newData.write(to: manifestPath)
                 }
-                
+
                 do {
                     let infoPath = backup
                         .appendingPathComponent("Info")
                         .appendingPathExtension("plist")
                     let dic = try PropertyListSerialization.propertyList(
-                        from: try Data(contentsOf: infoPath),
+                        from: Data(contentsOf: infoPath),
                         options: [],
                         format: nil
                     )
@@ -319,7 +320,7 @@ struct PrepareRestoreView: View {
                             NSLocalizedDescriptionKey: NSLocalizedString(
                                 "The backup archive is corrupted after modification.",
                                 comment: ""
-                            )
+                            ),
                         ]
                     )
                 }
@@ -352,7 +353,8 @@ struct PrepareRestoreView: View {
             "The device will be erased when restoring.", comment: ""
         )
         alert.addButton(
-            withTitle: NSLocalizedString("Erase & Restore", comment: ""))
+            withTitle: NSLocalizedString("Erase & Restore", comment: "")
+        )
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         alert.buttons.first?.hasDestructiveAction = true
         alert.alertStyle = .critical

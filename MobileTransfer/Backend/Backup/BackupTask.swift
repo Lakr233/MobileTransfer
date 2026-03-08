@@ -5,10 +5,11 @@
 //  Created by 秋星桥 on 2024/9/25.
 //
 
-import Combine
 import Foundation
+import Observation
 
-class BackupTask: Identifiable, ObservableObject {
+@Observable
+class BackupTask: Identifiable {
     let id: UUID = .init()
 
     struct BackupTaskParameter: Codable {
@@ -29,9 +30,7 @@ class BackupTask: Identifiable, ObservableObject {
         case pending
     }
 
-    @Published var verificationStatus: VerificationStatus = .pending
-
-    var cancellable: Set<AnyCancellable> = []
+    var verificationStatus: VerificationStatus = .pending
 
     var completed: Bool {
         if !deviceDataTask.completed { return false }
@@ -64,19 +63,6 @@ class BackupTask: Identifiable, ObservableObject {
         } else {
             applicationDataTask = nil
         }
-
-        deviceDataTask.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.objectWillChange.send()
-            }
-            .store(in: &cancellable)
-        applicationDataTask?.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.objectWillChange.send()
-            }
-            .store(in: &cancellable)
     }
 
     deinit {
@@ -108,15 +94,10 @@ class BackupTask: Identifiable, ObservableObject {
             self.verificationStatus = info.verified ? .passed : .failed
         }
 
-        DispatchQueue.main.asyncAndWait {
-            self.objectWillChange.send()
-        }
-
         if let data = try? PropertyListEncoder().encode(parameter) {
             try? data.write(to: parameter
                 .backupLocation
-                .appendingPathComponent("BackupManifest.plist")
-            )
+                .appendingPathComponent("BackupManifest.plist"))
         }
     }
 

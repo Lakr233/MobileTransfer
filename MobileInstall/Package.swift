@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Lakr233/AppleMobileDeviceLibrary.git", from: "1.0.0"),
-        .package(url: "https://github.com/Lakr233/libzip-spm.git", from: "1.11.1"),
+        .package(url: "https://github.com/Lakr233/libzip-spm.git", from: "1.11.3"),
     ],
     targets: [
         .executableTarget(
@@ -24,7 +24,7 @@ let package = Package(
             cSettings: [
                 .unsafeFlags(["-w"]),
                 .define("PACKAGE_NAME=\"MobileInstall\""),
-                .define("PACKAGE_VERSION=\"baa9b5d1\""),
+                .define("PACKAGE_VERSION=\"1762d5f1\""),
                 .define("PACKAGE_URL=\"UNAVAILABLE\""),
                 .define("PACKAGE_BUGREPORT=\"UNAVAILABLE\""),
                 .define("HAVE_VASPRINTF"),

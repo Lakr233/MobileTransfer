@@ -9,24 +9,34 @@ import AppleMobileDeviceLibrary
 import SwiftUI
 
 private struct UnregisteredDevice: Codable, Identifiable, Hashable, Equatable {
-    var id: String { udid }
+    var id: String {
+        udid
+    }
 
     var udid: String
     var deviceRecord: AppleMobileDeviceManager.DeviceRecord? {
         didSet { assert(deviceRecord?.uniqueDeviceID == udid) }
     }
 
-    var trusted: Bool { deviceRecord?.valueFor("TrustedHostAttached") ?? false }
+    var trusted: Bool {
+        deviceRecord?.valueFor("TrustedHostAttached") ?? false
+    }
 
-    var deviceName: String { deviceRecord?.deviceName ?? "Unknown" }
-    var productType: String { deviceRecord?.productType ?? "Unknown" }
+    var deviceName: String {
+        deviceRecord?.deviceName ?? "Unknown"
+    }
+
+    var productType: String {
+        deviceRecord?.productType ?? "Unknown"
+    }
+
     var deviceSystemIcon: String {
         deviceRecord?.deviceClass?.lowercased() ?? "questionmark.circle"
     }
 }
 
 struct FindDeviceView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     let timer = Timer
         .publish(every: 5, on: .main, in: .common)

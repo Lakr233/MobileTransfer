@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BackupLocationView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var locationDescription: LocalizedStringKey {
         let value = try? FileManager.default.attributesOfFileSystem(

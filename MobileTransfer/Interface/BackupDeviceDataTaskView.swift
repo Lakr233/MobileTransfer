@@ -10,7 +10,7 @@ import SwiftUI
 struct BackupDeviceDataTaskView: View {
     let spacing: CGFloat = 16
 
-    @StateObject var task: MobileBackupTask
+    var task: MobileBackupTask
 
     var overall: String {
         "\(Int(task.overall.fractionCompleted * 100))%"

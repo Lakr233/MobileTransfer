@@ -9,10 +9,10 @@ import ApplePackage
 import SwiftUI
 
 struct BackupApplicationView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     @State var isScaning: Bool = false
-    @StateObject var avm = AppStoreBackend.shared
+    @State var avm = AppStoreBackend.shared
 
     @State var appList: [App] = []
     @State var openSignIn: String? = nil
@@ -37,7 +37,7 @@ struct BackupApplicationView: View {
     }
 
     var unableToGetAccountCount: Int {
-        appList.filter { $0.account == "*" }.count
+        appList.count(where: { $0.account == "*" })
     }
 
     var desc: LocalizedStringKey {
@@ -49,6 +49,7 @@ struct BackupApplicationView: View {
     }
 
     var body: some View {
+        @Bindable var vm = vm
         CardContentView {
             CardContentHeader(icon: "arrow.down.circle", title: "Backup Applications") {
                 if vm.backupApps {
@@ -129,7 +130,7 @@ struct BackupApplicationView: View {
         }
         .onAppear { scanApps(isFirstScan: true) }
         .onReceive(timer) { _ in scanApps() }
-        .onChange(of: accounts) { newValue in
+        .onChange(of: accounts) { _, newValue in
             vm.backupApplicationAccountAllowed = Set(newValue)
         }
         .sheet(item: $openSignIn) { email in

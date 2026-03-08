@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BackupEncryptionIndicatorView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     enum BackupEncryptionStatus {
         case finding

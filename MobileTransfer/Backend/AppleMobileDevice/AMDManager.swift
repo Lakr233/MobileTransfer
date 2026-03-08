@@ -23,10 +23,17 @@ public class AppleMobileDeviceManager {
         public var id: UUID = .init()
 
         public var store: AnyCodable
-        public init() { store = .init([String: String]()) }
-        public init(store: AnyCodable) { self.store = store }
+        public init() {
+            store = .init([String: String]())
+        }
 
-        var dictionary: [String: Any] { store.value as? [String: Any] ?? [:] }
+        public init(store: AnyCodable) {
+            self.store = store
+        }
+
+        var dictionary: [String: Any] {
+            store.value as? [String: Any] ?? [:]
+        }
 
         public var plistData: Data? {
             guard !dictionary.keys.isEmpty,

@@ -28,12 +28,6 @@ extension ViewModel {
         let task = BackupTask(parameter: parameter)
         backupTask = task
 
-        task.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.objectWillChange.send()
-            }
-            .store(in: &cancellables)
         bindProgressToDock()
 
         DispatchQueue.global(qos: .utility).async {
@@ -60,12 +54,6 @@ extension ViewModel {
         ))
         restoreTask = task
 
-        task.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.objectWillChange.send()
-            }
-            .store(in: &cancellables)
         bindProgressToDock()
 
         DispatchQueue.global(qos: .utility).async {
@@ -90,12 +78,6 @@ extension ViewModel {
         ))
         applicationInstallTask = task
 
-        task.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.objectWillChange.send()
-            }
-            .store(in: &cancellables)
         bindProgressToDock()
 
         DispatchQueue.global(qos: .utility).async {

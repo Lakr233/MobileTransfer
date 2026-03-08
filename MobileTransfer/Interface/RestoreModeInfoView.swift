@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestoreModeInfoView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var body: some View {
         MessageBoxView(title: "Restore Mode", width: 666) {

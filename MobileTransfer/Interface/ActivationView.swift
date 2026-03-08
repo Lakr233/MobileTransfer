@@ -11,7 +11,7 @@ struct ActivationView: View {
     let title: LocalizedStringKey = "Activate"
     let spacing: CGFloat = 16
 
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
     @Environment(\.dismiss) var dismiss
 
     @State var email: String = ""
@@ -48,7 +48,7 @@ struct ActivationView: View {
                     GridRow {
                         Text("Email")
                         TextField("xxxx@xxx.xxx", text: $email)
-                            .onChange(of: key) { newValue in
+                            .onChange(of: key) { _, newValue in
                                 let format = newValue
                                     .replacingOccurrences(of: "\n", with: "")
                                     .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -58,7 +58,7 @@ struct ActivationView: View {
                     GridRow {
                         Text("Key")
                         TextField("MT-XXXX-XXXX-XXXX", text: $key)
-                            .onChange(of: key) { newValue in
+                            .onChange(of: key) { _, newValue in
                                 let format = newValue.uppercased().trimmingCharacters(in: .whitespacesAndNewlines)
                                 if format != newValue { key = format }
                             }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActionMenuView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var body: some View {
         VStack(spacing: 16) {

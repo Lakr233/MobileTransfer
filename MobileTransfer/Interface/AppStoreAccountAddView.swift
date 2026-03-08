@@ -9,7 +9,7 @@ import ApplePackage
 import SwiftUI
 
 struct AppStoreAccountAddView: View {
-    @StateObject private var backend = AppStoreBackend.shared
+    @State private var backend = AppStoreBackend.shared
     @Environment(\.dismiss) var dismiss
 
     @State var email: String = ""
@@ -82,18 +82,21 @@ struct AppStoreAccountAddView: View {
 
     func authenticate() {
         openProgress = true
-        DispatchQueue.global().async {
-            defer { DispatchQueue.main.async { openProgress = false } }
-            let auth = ApplePackage.Authenticator(email: email)
+        Task {
+            defer { Task { @MainActor in openProgress = false } }
             do {
-                let account = try auth.authenticate(password: password, code: code.isEmpty ? nil : code)
-                DispatchQueue.main.async {
-                    backend.save(email: email, password: password, account: account)
+                let appleAccount = try await Authenticator.authenticate(
+                    email: email,
+                    password: password,
+                    code: code
+                )
+                await MainActor.run {
+                    backend.save(email: email, password: password, appleAccount: appleAccount)
                     dismiss()
                     completion?(email)
                 }
             } catch {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.error = error
                     codeRequired = true
                 }

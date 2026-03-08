@@ -9,7 +9,9 @@ import CommonCrypto
 import Foundation
 
 struct PairRecord: Codable, Identifiable, Hashable, Equatable {
-    var id: String { udid }
+    var id: String {
+        udid
+    }
 
     var udid: String
     var hostID: String

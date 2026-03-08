@@ -9,7 +9,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ContentView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     let animation: Animation = .interactiveSpring(
         duration: 0.5,
@@ -24,16 +24,18 @@ struct ContentView: View {
                     .transition(
                         .asymmetric(
                             insertion: .opacity.combined(
-                                with: .scale(scale: 0.85, anchor: .center)),
+                                with: .scale(scale: 0.85, anchor: .center)
+                            ),
                             removal: .opacity
-                        ))
+                        )
+                    )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             Divider().padding(.horizontal, -32)
             FootnoteView().padding(.top, 16)
         }
         .animation(animation, value: vm.page)
-        .onChange(of: vm.page) { _ in
+        .onChange(of: vm.page) {
             if sleepDisabled {
                 KeepAwake.disableSleep()
             } else {

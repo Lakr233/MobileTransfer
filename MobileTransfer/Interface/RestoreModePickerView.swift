@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestoreModePickerView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     @State var openInfo = false
 
@@ -32,6 +32,7 @@ struct RestoreModePickerView: View {
     }
 
     var body: some View {
+        @Bindable var vm = vm
         CardContentView {
             CardContentHeader(icon: "document.badge.gearshape", title: "Restore Mode") {
                 if vm.restoreMode == .unspecified {

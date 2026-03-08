@@ -9,7 +9,7 @@ import SwiftUI
 import WindowAnimation
 
 struct LicensePageView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var body: some View {
         VStack {

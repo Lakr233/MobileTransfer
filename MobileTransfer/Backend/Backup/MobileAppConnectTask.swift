@@ -6,15 +6,12 @@
 //
 
 import ApplePackage
-import Combine
 import Digger
 import Foundation
+import Observation
 
-private let httpClient = HTTPClient(urlSession: URLSession.shared)
-private let itunesClient = iTunesClient(httpClient: httpClient)
-private let storeClient = StoreClient(httpClient: httpClient)
-
-class MobileAppConnectTask: ObservableObject, Identifiable {
+@Observable
+class MobileAppConnectTask: Identifiable {
     let id: UUID = .init()
 
     let appList: [App]
@@ -22,12 +19,11 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
     let storeBase: URL
 
     var cancelled = false
-    var cancellables: Set<AnyCancellable> = []
 
-    @Published var runningTasks: [DownloadTask] = []
-    @Published var successTasks: [DownloadTask] = []
-    @Published var failedTasks: [DownloadTask] = []
-    @Published var logs: [String] = []
+    var runningTasks: [DownloadTask] = []
+    var successTasks: [DownloadTask] = []
+    var failedTasks: [DownloadTask] = []
+    var logs: [String] = []
 
     var progress: Double {
         guard !appList.isEmpty else { return 0 }
@@ -101,22 +97,20 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
         URLSession.shared.getAllTasks { tasks in
             tasks.forEach { $0.cancel() }
         }
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
     }
 
-    private func prepare(_ app: App) -> (AppStoreBackend.Account, iTunesResponse.iTunesArchive, StoreResponse.Account, StoreResponse.Item)? {
+    private func prepare(_ app: App) -> (AppStoreBackend.Account, Software, DownloadOutput)? {
         let account = app.account
         if account == "*" {
             let accounts = AppStoreBackend.shared.accounts.filter {
                 allowedAccounts.contains($0.email.lowercased())
             }
             for account in accounts {
-                if let (archiveItem, item) = retrieveStoreItems(
+                if let result = retrieveAndDownload(
                     bundleIdentifier: app.bundleIdentifier,
                     account: account
                 ) {
-                    return (account, archiveItem, account.storeResponse, item)
+                    return (account, result.0, result.1)
                 }
             }
             return nil
@@ -125,31 +119,43 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
                 $0.email.lowercased() == app.account.lowercased()
             }
             guard let account else { return nil }
-            guard let (archiveItem, item) = retrieveStoreItems(
+            guard let result = retrieveAndDownload(
                 bundleIdentifier: app.bundleIdentifier,
                 account: account
             ) else { return nil }
-            return (account, archiveItem, account.storeResponse, item)
+            return (account, result.0, result.1)
         }
     }
 
-    private func retrieveStoreItems(
+    private func retrieveAndDownload(
         bundleIdentifier: String,
         account: AppStoreBackend.Account
-    ) -> (iTunesResponse.iTunesArchive, StoreResponse.Item)? {
+    ) -> (Software, DownloadOutput)? {
         for _ in 0 ..< 3 where !cancelled {
-            for type in EntityType.allCases {
-                guard let archiveItem = try? itunesClient.lookup(
-                    type: type,
-                    bundleIdentifier: bundleIdentifier,
-                    region: account.countryCode
-                ), let item = try? storeClient.item(
-                    identifier: String(archiveItem.identifier),
-                    directoryServicesIdentifier: account.storeResponse.directoryServicesIdentifier
-                )
-                else { continue }
-                return (archiveItem, item)
-            }
+            let result: (Software, DownloadOutput)? = {
+                let sem = DispatchSemaphore(value: 0)
+                var result: (Software, DownloadOutput)?
+                Task {
+                    defer { sem.signal() }
+                    do {
+                        let software = try await Lookup.lookup(
+                            bundleID: bundleIdentifier,
+                            countryCode: account.countryCode
+                        )
+                        var appleAccount = account.appleAccount
+                        let downloadOutput = try await Download.download(
+                            account: &appleAccount,
+                            app: software
+                        )
+                        result = (software, downloadOutput)
+                    } catch {
+                        // try next attempt
+                    }
+                }
+                sem.wait()
+                return result
+            }()
+            if let result { return result }
         }
         return nil
     }
@@ -170,15 +176,6 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
                     self.successTasks.append(task)
                 }
             }
-        }
-
-        DispatchQueue.main.asyncAndWait {
-            task.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.objectWillChange.send()
-                }
-                .store(in: &cancellables)
         }
 
         guard !cancelled else {
@@ -203,14 +200,17 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
             return
         }
 
-        task.appAvatar = prepareResult.1.artworkUrl512 ?? ""
-        task.appName = prepareResult.1.name
-        task.appVersion = prepareResult.1.version
-        task.appURL = prepareResult.3.url
+        let (account, software, downloadOutput) = prepareResult
+
+        task.appAvatar = software.artworkUrl
+        task.appName = software.name
+        task.appVersion = software.version
+        task.appURL = URL(string: downloadOutput.downloadURL) ?? URL(fileURLWithPath: UUID().uuidString)
 
         DispatchQueue.main.asyncAndWait { self.runningTasks.append(task) }
 
-        let name = "\(app.bundleIdentifier)+\(prepareResult.3.md5).ipa"
+        // Use bundleID + version as unique filename (no md5 available in new API)
+        let name = "\(app.bundleIdentifier)+\(software.version).ipa"
         let targetFile = storeBase.appendingPathComponent(name)
 
         if FileManager.default.fileExists(atPath: targetFile.path) {
@@ -250,7 +250,12 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
             var speedUpdatedAt: Date = .init()
 
             let sem = DispatchSemaphore(value: 0)
-            let diggerURL = prepareResult.3.url
+            guard let diggerURL = URL(string: downloadOutput.downloadURL) else {
+                DispatchQueue.main.asyncAndWait {
+                    task.error = NSLocalizedString("Invalid download URL", comment: "")
+                }
+                return
+            }
             DiggerManager.shared.download(with: diggerURL)
                 .progress { progress in
                     task.progress = progress.fractionCompleted
@@ -313,19 +318,25 @@ class MobileAppConnectTask: ObservableObject, Identifiable {
             return
         }
 
-        let md5 = prepareResult.3.md5
-        let fileMD5 = md5File(url: tempUrl)
-        guard md5.lowercased() == fileMD5?.lowercased() else {
-            DispatchQueue.main.asyncAndWait {
-                task.error = NSLocalizedString("File hash mismatch", comment: "")
-            }
-            return
-        }
-
         do {
-            let signatureClient = SignatureClient(fileManager: .default, filePath: tempUrl.path)
-            try signatureClient.appendMetadata(item: prepareResult.3, email: prepareResult.0.email)
-            try signatureClient.appendSignature(item: prepareResult.3)
+            // Use new SignatureInjector API
+            let injectSem = DispatchSemaphore(value: 0)
+            var injectError: Error?
+            Task {
+                defer { injectSem.signal() }
+                do {
+                    try await SignatureInjector.inject(
+                        sinfs: downloadOutput.sinfs,
+                        iTunesMetadata: downloadOutput.iTunesMetadata,
+                        into: tempUrl.path
+                    )
+                } catch {
+                    injectError = error
+                }
+            }
+            injectSem.wait()
+
+            if let injectError { throw injectError }
 
             try? FileManager.default.removeItem(at: targetFile)
             try? FileManager.default.createDirectory(
@@ -353,7 +364,8 @@ private let byteFormatter: ByteCountFormatter = {
 }()
 
 extension MobileAppConnectTask {
-    class DownloadTask: Identifiable, ObservableObject, Equatable {
+    @Observable
+    class DownloadTask: Identifiable, Equatable {
         static func == (lhs: MobileAppConnectTask.DownloadTask, rhs: MobileAppConnectTask.DownloadTask) -> Bool {
             lhs.id == rhs.id &&
                 lhs.appAvatar == rhs.appAvatar &&
@@ -368,14 +380,14 @@ extension MobileAppConnectTask {
 
         var id: UUID = .init()
 
-        @Published var appAvatar: String = ""
-        @Published var appName: String = ""
-        @Published var appVersion: String = ""
-        @Published var appURL: URL = .init(fileURLWithPath: UUID().uuidString)
+        var appAvatar: String = ""
+        var appName: String = ""
+        var appVersion: String = ""
+        var appURL: URL = .init(fileURLWithPath: UUID().uuidString)
 
-        @Published var progress: Double = 0
-        @Published var speed: Int = 0
-        @Published var error: String? = nil
+        var progress: Double = 0
+        var speed: Int = 0
+        var error: String?
 
         var progressText: String {
             "\(Int(progress * 100))%"

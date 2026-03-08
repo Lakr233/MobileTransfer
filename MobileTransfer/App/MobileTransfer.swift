@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MobileTransfer: SwiftUI.App {
-    @StateObject var vm = ViewModel.shared
+    @State var vm = ViewModel.shared
 
     @State var progress = false
     @State var openLicensePage = false
@@ -24,8 +24,8 @@ struct MobileTransfer: SwiftUI.App {
                     LicensePageView()
                 }
                 .onAppear { checkLicenseOpen(isOnAppear: true) }
-                .onChange(of: openLicensePage) { _ in checkLicenseOpen() }
-                .onChange(of: vm.page) { _ in checkLicenseOpen() }
+                .onChange(of: openLicensePage) { checkLicenseOpen() }
+                .onChange(of: vm.page) { checkLicenseOpen() }
                 .sheet(isPresented: $progress) {
                     ProgressView()
                         .interactiveDismissDisabled()
@@ -36,7 +36,7 @@ struct MobileTransfer: SwiftUI.App {
                     minHeight: 444, idealHeight: 444, maxHeight: .infinity,
                     alignment: .center
                 )
-                .environmentObject(vm)
+                .environment(vm)
         }
         .windowResizability(.contentSize)
         .windowStyle(.hiddenTitleBar)

@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct RestoreTaskView: View {
-    @StateObject var task: RestoreTask
+    var task: RestoreTask
 
-    @ViewBuilder
     var body: some View {
         RestoreDeviceDataTaskView(task: task.restoreDeviceTask)
     }

@@ -525,6 +525,7 @@
 				508BA0032CB63BB700E8FD1B /* XCRemoteSwiftPackageReference "DockProgress" */,
 				50A4C9682CC1089000954D3E /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				50B420992CC8216D009F4C52 /* XCRemoteSwiftPackageReference "WindowAnimation" */,
+				50C18C502CA4079600F9F428 /* XCRemoteSwiftPackageReference "ApplePackage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
@@ -857,7 +858,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.10;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.MobileTransfer;
@@ -894,7 +895,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.10;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = wiki.qaq.MobileTransfer;
@@ -941,7 +942,7 @@
 			repositoryURL = "https://github.com/Lakr233/ColorfulX.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.6.6;
+				minimumVersion = 6.1.0;
 			};
 		};
 		5053869A2CA3C0670087A63A /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
@@ -949,7 +950,7 @@
 			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.5.2;
+				minimumVersion = 4.6.0;
 			};
 		};
 		508BA0032CB63BB700E8FD1B /* XCRemoteSwiftPackageReference "DockProgress" */ = {
@@ -957,7 +958,7 @@
 			repositoryURL = "https://github.com/sindresorhus/DockProgress";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.1;
+				minimumVersion = 5.1.0;
 			};
 		};
 		50A4C9682CC1089000954D3E /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
@@ -965,7 +966,7 @@
 			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.3;
+				minimumVersion = 3.0.0;
 			};
 		};
 		50A7D5C32CA4398B00A9CBFB /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -973,7 +974,7 @@
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.3;
+				minimumVersion = 8.8.0;
 			};
 		};
 		50B420992CC8216D009F4C52 /* XCRemoteSwiftPackageReference "WindowAnimation" */ = {
@@ -989,7 +990,15 @@
 			repositoryURL = "https://github.com/Lakr233/AppleMobileDeviceLibrary.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.1757394913;
+				minimumVersion = 1.0.1772947744;
+			};
+		};
+		50C18C502CA4079600F9F428 /* XCRemoteSwiftPackageReference "ApplePackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Lakr233/ApplePackage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1036,6 +1045,7 @@
 		};
 		50C18C442CA4079600F9F428 /* ApplePackage */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 50C18C502CA4079600F9F428 /* XCRemoteSwiftPackageReference "ApplePackage" */;
 			productName = ApplePackage;
 		};
 		50F485322CA3CEE10000FEF6 /* AppleMobileDeviceLibrary */ = {

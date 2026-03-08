@@ -7,17 +7,16 @@
 
 import Cocoa
 import ColorfulX
-import Combine
 import DockProgress
+import Observation
 import UniformTypeIdentifiers
 
-class ViewModel: ObservableObject {
+@Observable
+class ViewModel {
     static let shared = ViewModel()
 
     static let defaultBackupLocation = URL(fileURLWithPath: NSTemporaryDirectory())
         .appendingPathComponent("MobileTransfer")
-
-    var cancellables: Set<AnyCancellable> = .init()
 
     enum Page: String {
         case welcome
@@ -30,7 +29,7 @@ class ViewModel: ObservableObject {
         case installApplication
     }
 
-    @Published var navigationArray: [Page] = [.welcome]
+    var navigationArray: [Page] = [.welcome]
 
     enum Mode {
         case unspecified
@@ -38,30 +37,41 @@ class ViewModel: ObservableObject {
         case restore
     }
 
-    @Published var mode: Mode = .unspecified
+    var mode: Mode = .unspecified
 
-    @Published var deviceIdentifier: String? = nil
+    var deviceIdentifier: String?
 
     // MARK: - backup
 
-    // sandbox will block our access to these path after reopen
-    @Published var backupLocation: String = defaultBackupLocation
+    /// sandbox will block our access to these path after reopen
+    var backupLocation: String = defaultBackupLocation
         .appendingPathComponent(UUID().uuidString)
         .appendingPathExtension("mobiletransfer")
         .path
 
-    @Published var backupApps: Bool = false
+    var backupApps: Bool = false
 
     // passed from view
-    @Published var backupEncrypted: Bool = false
-    @Published var backupApplicationList: [App] = []
-    @Published var backupApplicationAccountAllowed: Set<String> = []
+    var backupEncrypted: Bool = false
+    var backupApplicationList: [App] = []
+    var backupApplicationAccountAllowed: Set<String> = []
 
-    @Published var backupTask: BackupTask?
+    var backupTask: BackupTask?
 
     // disabled by default due to recent api changes on Apple's server side
-    @PublishedStorage(key: "wiki.qaq.showAppPackageDownloadPanel", defaultValue: false)
-    var showAppPackageDownloadPanel: Bool
+    @ObservationIgnored
+    private var _showAppPackageDownloadPanel = StoredValue(key: "wiki.qaq.showAppPackageDownloadPanel", defaultValue: false)
+    var showAppPackageDownloadPanel: Bool {
+        get {
+            access(keyPath: \.showAppPackageDownloadPanel)
+            return _showAppPackageDownloadPanel.get()
+        }
+        set {
+            withMutation(keyPath: \.showAppPackageDownloadPanel) {
+                _showAppPackageDownloadPanel.set(newValue)
+            }
+        }
+    }
 
     // MARK: - restore
 
@@ -72,15 +82,15 @@ class ViewModel: ObservableObject {
         case mergeWithoutInstallApplication // same as merge
     }
 
-    @Published var restoreLocation: String?
-    @Published var restorePassword: String = ""
-    @Published var restoreArchiveSystemBuildVersion: String = ""
-    @Published var restoreArchiveIsPasswordProtected: Bool = false
-    @Published var restoreApplicationsCount: Int = 0
-    @Published var restoreMode: RestoreMode = .unspecified
+    var restoreLocation: String?
+    var restorePassword: String = ""
+    var restoreArchiveSystemBuildVersion: String = ""
+    var restoreArchiveIsPasswordProtected: Bool = false
+    var restoreApplicationsCount: Int = 0
+    var restoreMode: RestoreMode = .unspecified
 
-    @Published var restoreTask: RestoreTask?
-    @Published var applicationInstallTask: MobileInstallTask?
+    var restoreTask: RestoreTask?
+    var applicationInstallTask: MobileInstallTask?
 
     // MARK: - Activation
 
@@ -90,8 +100,19 @@ class ViewModel: ObservableObject {
         var validateTo: Date
     }
 
-    @PublishedStorage(key: "LicenseInfo", defaultValue: nil)
-    var licenseInfo: LicenseInfo?
+    @ObservationIgnored
+    private var _licenseInfo = StoredValue(key: "LicenseInfo", defaultValue: nil as LicenseInfo?)
+    var licenseInfo: LicenseInfo? {
+        get {
+            access(keyPath: \.licenseInfo)
+            return _licenseInfo.get()
+        }
+        set {
+            withMutation(keyPath: \.licenseInfo) {
+                _licenseInfo.set(newValue)
+            }
+        }
+    }
 
     var isLicenseTrail: Bool {
         guard let info = licenseInfo else { return false }
@@ -113,8 +134,6 @@ class ViewModel: ObservableObject {
         backupTask?.terminate()
         restoreTask?.terminate()
         applicationInstallTask?.terminate()
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
         deviceIdentifier = nil
         mode = .unspecified
         backupApps = showAppPackageDownloadPanel

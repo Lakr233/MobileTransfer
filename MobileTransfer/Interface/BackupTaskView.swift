@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct BackupTaskView: View {
-    @StateObject var task: BackupTask
+    var task: BackupTask
 
-    @ViewBuilder
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             BackupDeviceDataTaskView(task: task.deviceDataTask)

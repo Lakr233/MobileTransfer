@@ -5,9 +5,6 @@
       location = "group:MobileTransfer.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ApplePackage">
-   </FileRef>
-   <FileRef
       location = "group:Digger">
    </FileRef>
    <FileRef

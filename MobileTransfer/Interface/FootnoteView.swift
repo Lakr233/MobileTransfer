@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FootnoteView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     @State var openAgreementSheet = false
     @AppStorage("AgreementsShown") var agreementsShown = false
@@ -91,7 +91,7 @@ struct FootnoteView: View {
         .animation(.spring, value: vm.mode)
         .animation(.spring, value: vm.deviceIdentifier)
         .font(.body)
-        .onChange(of: showBackButton) { newValue in
+        .onChange(of: showBackButton) { _, newValue in
             if !newValue {
                 while vm.navigationArray.count > 1 {
                     vm.navigationArray.removeLast()

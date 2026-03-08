@@ -9,7 +9,7 @@ import ColorfulX
 import SwiftUI
 
 struct BackgroundView: View {
-    @EnvironmentObject var vm: ViewModel
+    @Environment(ViewModel.self) var vm
 
     var body: some View {
         ColorfulView(

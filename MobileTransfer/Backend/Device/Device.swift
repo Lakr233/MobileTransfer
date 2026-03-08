@@ -11,7 +11,9 @@ import Foundation
 struct Device: Codable, Identifiable, Hashable, Equatable, CopyableCodable {
     typealias ID = String
 
-    var id: String { udid }
+    var id: String {
+        udid
+    }
 
     var udid: String
     var deviceRecord: AppleMobileDeviceManager.DeviceRecord {
@@ -29,7 +31,10 @@ struct Device: Codable, Identifiable, Hashable, Equatable, CopyableCodable {
 
     var possibleNetworkAddress: [String] = []
 
-    var deviceName: String { deviceRecord.deviceName ?? "Unknown" }
+    var deviceName: String {
+        deviceRecord.deviceName ?? "Unknown"
+    }
+
     var deviceSystemIcon: String {
         if let icon = extra[.preferredIcon], !icon.isEmpty {
             return icon

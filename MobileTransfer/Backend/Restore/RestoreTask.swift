@@ -5,10 +5,11 @@
 //  Created by 秋星桥 on 2024/9/26.
 //
 
-import Combine
 import Foundation
+import Observation
 
-class RestoreTask: Identifiable, ObservableObject {
+@Observable
+class RestoreTask: Identifiable {
     let id: UUID = .init()
 
     struct RestoreTaskParameter: Codable {
@@ -19,8 +20,6 @@ class RestoreTask: Identifiable, ObservableObject {
     }
 
     let parameter: RestoreTaskParameter
-
-    var cancellable: Set<AnyCancellable> = []
 
     var completed: Bool {
         if !restoreDeviceTask.completed { return false }
@@ -51,15 +50,6 @@ class RestoreTask: Identifiable, ObservableObject {
             password: parameter.archivePassword,
             parameters: parameter.mode.commandLineParameters
         ))
-
-        restoreDeviceTask.objectWillChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                if self?.completed ?? false {
-                    self?.objectWillChange.send()
-                }
-            }
-            .store(in: &cancellable)
     }
 
     deinit {

@@ -10,16 +10,45 @@ import Foundation
 
 public extension AppleMobileDeviceManager {
     class PairRecord: CodableRecord {
-        public var deviceCertificate: Data? { valueFor("DeviceCertificate") }
-        public var hostPrivateKey: Data? { valueFor("HostPrivateKey") }
-        public var hostCertificate: Data? { valueFor("HostCertificate") }
-        public var rootPrivateKey: Data? { valueFor("RootPrivateKey") }
-        public var rootCertificate: Data? { valueFor("RootCertificate") }
-        public var systemBUID: String? { valueFor("SystemBUID") }
-        public var hostID: String? { valueFor("HostID") }
-        public var escrowBag: Data? { valueFor("EscrowBag") }
-        public var wifiMACAddress: String? { valueFor("WiFiMACAddress") }
-        public var udid: String? { valueFor("UDID") }
+        public var deviceCertificate: Data? {
+            valueFor("DeviceCertificate")
+        }
+
+        public var hostPrivateKey: Data? {
+            valueFor("HostPrivateKey")
+        }
+
+        public var hostCertificate: Data? {
+            valueFor("HostCertificate")
+        }
+
+        public var rootPrivateKey: Data? {
+            valueFor("RootPrivateKey")
+        }
+
+        public var rootCertificate: Data? {
+            valueFor("RootCertificate")
+        }
+
+        public var systemBUID: String? {
+            valueFor("SystemBUID")
+        }
+
+        public var hostID: String? {
+            valueFor("HostID")
+        }
+
+        public var escrowBag: Data? {
+            valueFor("EscrowBag")
+        }
+
+        public var wifiMACAddress: String? {
+            valueFor("WiFiMACAddress")
+        }
+
+        public var udid: String? {
+            valueFor("UDID")
+        }
     }
 
     func obtainSystemBUID() -> String? {

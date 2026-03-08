@@ -6,11 +6,12 @@
 //
 
 import AuxiliaryExecute
-import Combine
 import Foundation
+import Observation
 import ZIPFoundation
 
-class MobileInstallTask: Identifiable, ObservableObject {
+@Observable
+class MobileInstallTask: Identifiable {
     let id: UUID = .init()
 
     struct ApplicationInstallTaskPatameter: Codable {
@@ -21,7 +22,6 @@ class MobileInstallTask: Identifiable, ObservableObject {
     let parameter: ApplicationInstallTaskPatameter
 
     var cancelled: Bool = false
-    var cancellable: Set<AnyCancellable> = []
 
     struct Log: Identifiable, Equatable {
         var id: UUID = .init()
@@ -30,15 +30,17 @@ class MobileInstallTask: Identifiable, ObservableObject {
         var isError: Bool = false
     }
 
-    @Published var output: [Log] = []
+    var output: [Log] = []
 
-    @Published var error: String? = nil
-    @Published var failedList: [String] = []
-    @Published var isWaitingForDeviceToConnect = false
-    @Published var progress: Progress = .init()
-    @Published var completed: Bool = false
+    var error: String?
+    var failedList: [String] = []
+    var isWaitingForDeviceToConnect = false
+    var progress: Progress = .init()
+    var completed: Bool = false
 
-    var success: Bool { error == nil && failedList.isEmpty }
+    var success: Bool {
+        error == nil && failedList.isEmpty
+    }
 
     var workerProcessIdentifier: [Int] = []
 
