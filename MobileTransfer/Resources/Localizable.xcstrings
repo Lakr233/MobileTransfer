@@ -807,6 +807,7 @@
       }
     },
     "File hash mismatch" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -998,6 +999,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "归档不可用"
+          }
+        }
+      }
+    },
+    "Invalid download URL" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下载链接无效"
           }
         }
       }
