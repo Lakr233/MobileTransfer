@@ -25,6 +25,7 @@
 		50A7D5C92CA5055400A9CBFB /* MobileTransfer.icns in Resources */ = {isa = PBXBuildFile; fileRef = 50A7D5C82CA5055400A9CBFB /* MobileTransfer.icns */; };
 		50C18C452CA4079600F9F428 /* ApplePackage in Frameworks */ = {isa = PBXBuildFile; productRef = 50C18C442CA4079600F9F428 /* ApplePackage */; };
 		50F485332CA3CEE10000FEF6 /* AppleMobileDeviceLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 50F485322CA3CEE10000FEF6 /* AppleMobileDeviceLibrary */; };
+		942B05998C6D086488506F7F /* LookInsideServer in Frameworks */ = {isa = PBXBuildFile; productRef = 823A6B347E1738583C5A86E2 /* LookInsideServer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,21 +50,29 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		50F413F02F62F25B00FE5C28 /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = App;
 			sourceTree = "<group>";
 		};
 		50F414082F62F25F00FE5C28 /* Extension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
 		50F4143A2F62F25F00FE5C28 /* Backend */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = Backend;
 			sourceTree = "<group>";
 		};
 		50F414752F62F25F00FE5C28 /* Interface */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = Interface;
 			sourceTree = "<group>";
 		};
@@ -85,6 +94,7 @@
 				50F485332CA3CEE10000FEF6 /* AppleMobileDeviceLibrary in Frameworks */,
 				508BA0052CB63BB700E8FD1B /* DockProgress in Frameworks */,
 				5046A1EC2CC82286003A8D9E /* WindowAnimation in Frameworks */,
+				942B05998C6D086488506F7F /* LookInsideServer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +192,7 @@
 				508BA0042CB63BB700E8FD1B /* DockProgress */,
 				50A4C9692CC1089000954D3E /* ConfettiSwiftUI */,
 				5046A1EB2CC82286003A8D9E /* WindowAnimation */,
+				823A6B347E1738583C5A86E2 /* LookInsideServer */,
 			);
 			productName = MobileTransfer;
 			productReference = 505F4BCF2CA2E709008BE817 /* MobileTransfer.app */;
@@ -223,8 +234,10 @@
 				50A4C9682CC1089000954D3E /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 				50B420992CC8216D009F4C52 /* XCRemoteSwiftPackageReference "WindowAnimation" */,
 				50C18C502CA4079600F9F428 /* XCRemoteSwiftPackageReference "ApplePackage" */,
+				77DA8A0B595377926E75C342 /* XCRemoteSwiftPackageReference "LookInside-Release" */,
 			);
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 505F4BD02CA2E709008BE817 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -517,6 +530,10 @@
 				ENABLE_RESOURCE_ACCESS_USB = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readwrite;
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					"$(inherited)",
+					"LookInsideServer*",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MobileTransfer/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MobileTransfer;
@@ -632,6 +649,14 @@
 				minimumVersion = 1.0.1772947744;
 			};
 		};
+		77DA8A0B595377926E75C342 /* XCRemoteSwiftPackageReference "LookInside-Release" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LookInsideApp/LookInside-Release.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -683,6 +708,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 50F485312CA3CEE10000FEF6 /* XCRemoteSwiftPackageReference "AppleMobileDeviceLibrary" */;
 			productName = AppleMobileDeviceLibrary;
+		};
+		823A6B347E1738583C5A86E2 /* LookInsideServer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77DA8A0B595377926E75C342 /* XCRemoteSwiftPackageReference "LookInside-Release" */;
+			productName = LookInsideServer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
