@@ -30,6 +30,10 @@ MobileTransfer is an app operating on MobileBackup (`idevicebackup2`). It offers
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
+## Sponsor
+
+[LookInside](https://lookinside-app.com/) helps you inspect a running iOS or macOS app UI from your Mac.
+
 ---
 
 Copyright © 2025 Lakr Aream. All Rights Reserved.
