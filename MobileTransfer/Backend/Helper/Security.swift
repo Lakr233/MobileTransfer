@@ -12,12 +12,12 @@ enum Security {
     static let requirementText =
         #"""
         anchor apple generic
-        and identifier "wiki.qaq.MobileTransfer"
+        and identifier "tech.nootag.itm"
         and (
             certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */
             or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */
                 and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */
-                and certificate leaf[subject.OU] = "964G86XT2P"
+                and certificate leaf[subject.OU] = "BK368UYPY3"
         )
         """#
         .trimmingCharacters(in: .whitespacesAndNewlines)

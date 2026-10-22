@@ -29,7 +29,7 @@ struct RestoreModeInfoView: View {
                     .bold()
                 Spacer()
             }
-            .foregroundStyle(vm.restoreMode == .merge || vm.restoreMode == .mergeWithoutInstallApplication ? .accent : .primary)
+            .foregroundStyle(vm.restoreMode == .merge || vm.restoreMode == .mergeWithoutInstallApplication ? Color.accentColor : Color.primary)
 
             Text("System data (photos, music, messages...) will be merged.")
             Text("App data will be replaced if exists in backup.")
@@ -51,7 +51,7 @@ struct RestoreModeInfoView: View {
                     .bold()
                 Spacer()
             }
-            .foregroundStyle(vm.restoreMode == .replace ? .accent : .primary)
+            .foregroundStyle(vm.restoreMode == .replace ? Color.accentColor : Color.primary)
 
             Text("All data on the device will be erased. All data exists in backup will be restored.")
             Text("After reboot, you may need to enter the original device password to decrypt backup.")

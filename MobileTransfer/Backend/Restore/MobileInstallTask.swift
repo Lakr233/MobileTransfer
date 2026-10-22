@@ -81,7 +81,7 @@ class MobileInstallTask: Identifiable {
                 guard let device else { return }
                 AppleMobileDeviceManager.shared.requireLockdownClient(
                     device: device,
-                    name: "MobileTransfer-Installer",
+                    name: "iTM-Installer",
                     handshake: true
                 ) { client in
                     guard client != nil else { return }

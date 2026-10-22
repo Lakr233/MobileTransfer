@@ -1,39 +1,24 @@
-# MobileTransfer
+# iTM
 
-<p align="center">
-  <a href="README.md">English</a> |
-  <a href="/Resources/i18n/zh/README.md">简体中文</a>
-</p>
+iTM (iOS TimeMachine) is a macOS app for backing up and restoring iOS devices. It is based on [MobileTransfer](https://github.com/Lakr233/MobileTransfer) by Lakr Aream.
 
-MobileTransfer is an app operating on MobileBackup (`idevicebackup2`). It offers a way to backup and restore data on iOS devices.
-
-![Screenshot](./Resources/Screenshot.png)
+Author: [@Sunbelife](https://weibo.com/x1nyang) · Sina Weibo.
 
 ## Features
 
-- [x] Backup and restore data on iOS devices
-- [x] Convert backup from [BBackupp](https://github.com/Lakr233/BBackupp)
-- [x] Backup and restore apps (experimental, currently broken due to API change)
-- [x] Set backup password
-- [x] Backup to custom path and restore from there
-- [x] Increment backup (menu -> backup -> load checkpoint)
-- [x] Downgrade Restore (use with caution, may brick your device)
+- Back up and restore iOS device data.
+- Choose a backup destination and set a backup password.
+- Load a checkpoint for an incremental backup.
+- Verify a backup and convert a BBackupp archive.
 
-## Special Note
+The experimental app backup and restore feature is currently broken because of an API change. Downgrade restore can damage a device; use it only after verifying the archive and target.
 
-1. This app was previously designed to be a paid app, but we are unable to provide reliable service on application backup/restore, and we have stopped developing or maintaining this app. We are open-sourcing this project to let the community continue the development.
-2. If you have already selected a backup to restore and want to choose another, you must return to the welcome screen to reselect.
+Existing `.mobiletransfer` archives remain supported. The extension stays the same to avoid breaking existing backups.
 
-*To use this app, enter any email address and license key during the activation prompt.*
+## Licensing
 
-## License
+The MobileTransfer application code is licensed under MIT. Its original copyright and license are retained in [LICENSE](LICENSE). Third-party notices are bundled in `MobileTransfer/Resources/License.txt`.
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+The bundled `MobileInstall` command-line helper contains GPL-2.0-or-later code, and `MobileBackup` contains LGPL-2.1-or-later code. Private internal development does not require publication. Review the corresponding source and license obligations before distributing an app bundle outside the organization.
 
-## Sponsor
-
-[LookInside](https://lookinside-app.com/) helps you inspect a running iOS or macOS app UI from your Mac.
-
----
-
-Copyright © 2025 Lakr Aream. All Rights Reserved.
+The Xcode project and scheme retain their upstream names for build compatibility; the macOS product name, icon, and bundle identifier are iTM.

@@ -1,0 +1,21 @@
+{
+  "sourceImageSHA256": "95f4558aa2c0ccd9f96ed479e336b630b46bf4b4e0baabc1c1ac8c7d55e21ab4",
+  "tables": {
+    "byte-tables.bin": {
+      "bytes": 51200,
+      "sha256": "a40bb580f1012b06b8b257926b76bb02ec98033f6399da2143c963d36dbe0aae"
+    },
+    "word-tables.bin": {
+      "bytes": 73728,
+      "sha256": "6eeffb5e403a54a3b51baa67cf0b7abc23271da404fef4cae9e06c9753833340"
+    },
+    "carry-masks.bin": {
+      "bytes": 964,
+      "sha256": "f0396c6119faafecc811c33a61433faacbfb685d157f198da920183b240285d0"
+    },
+    "f2-tables.bin": {
+      "bytes": 18432,
+      "sha256": "f811dd378e1e8e05a9d3697111c4fb1d4afe2acdf81a1fcde69fe231bc975876"
+    }
+  }
+}

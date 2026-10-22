@@ -13,18 +13,20 @@ struct RestoreProgressView: View {
     var body: some View {
         VStack(spacing: 16) {
             if let rvm = vm.restoreTask {
-                RestoreTaskView(task: rvm)
-                    .transition(.opacity)
-
+                Spacer(minLength: 0)
                 if rvm.completed {
-                    EmptyView().onAppear {
-                        if rvm.success { presentDeviceRebootingAlert() }
+                    TransferResultView(title: rvm.success ? "恢复数据已传送完成" : "恢复未完成",
+                                       message: rvm.success ? "设备正在重新启动，请保持连接，并在手机上完成后续设置。" : failureMessage(rvm),
+                                       success: rvm.success) {
+                        vm.restoreTask = nil
+                        vm.restorePassword = ""
+                        vm.page = .welcome
                     }
-                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } else {
+                    RestoreTaskView(task: rvm)
                     cancelButton
-                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 }
+                Spacer(minLength: 0)
             } else {
                 ProgressView()
                     .transition(.opacity)
@@ -35,6 +37,13 @@ struct RestoreProgressView: View {
         .animation(.spring, value: vm.restoreTask?.completed)
         .onAppear { vm.createRestoreTask() }
         .padding(.bottom, 16)
+    }
+
+    private func failureMessage(_ task: RestoreTask) -> String {
+        let errors = task.restoreDeviceTask.output.map(\.text).filter {
+            $0.localizedCaseInsensitiveContains("error") || $0.localizedCaseInsensitiveContains("failed")
+        }
+        return errors.isEmpty ? "恢复工具未能完成操作，请检查设备提示和连接后重试。" : Array(Set(errors)).sorted().joined(separator: "\n")
     }
 
     var cancelButton: some View {
@@ -57,36 +66,9 @@ struct RestoreProgressView: View {
                 }
             }
         } label: {
-            CardContentView {
-                Text("Stop Restore")
-                    .foregroundStyle(.red)
-                    .frame(maxWidth: .infinity)
-            }
+            Text("Stop Restore")
         }
-        .buttonStyle(.plain)
-    }
-
-    var nextButton: some View {
-        Button {
-            vm.page = .welcome
-        } label: {
-            CardContentView {
-                Text("Done")
-                    .foregroundStyle(.accent)
-                    .frame(maxWidth: .infinity)
-            }
-        }
-        .buttonStyle(.plain)
-    }
-
-    func presentDeviceRebootingAlert() {
-        guard let window = NSApp.mainWindow else { return }
-
-        let alert = NSAlert()
-        alert.messageText = NSLocalizedString("Restore Complete", comment: "")
-        alert.informativeText = NSLocalizedString("The device is rebooting, please wait for it to finish.", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.alertStyle = .informational
-        alert.beginSheetModal(for: window)
+        .buttonStyle(.bordered)
+        .controlSize(.regular)
     }
 }

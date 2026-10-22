@@ -37,7 +37,7 @@ struct WebSheetView: View {
                     .textSelection(.enabled)
                 Spacer()
                 Button("Close") { dismiss() }
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(.tint)
             }
             .padding(16)
         }

@@ -145,11 +145,14 @@ class MobileAppConnectTask: Identifiable {
                         var appleAccount = account.appleAccount
                         let downloadOutput = try await Download.download(
                             account: &appleAccount,
-                            app: software
+                            app: software, entityType: .iPhone
                         )
                         result = (software, downloadOutput)
                     } catch {
-                        // try next attempt
+                        self.dispatchOutput("\(bundleIdentifier)：商店请求失败（\(String(describing: type(of: error)))，错误 \((error as NSError).code)）")
+                        if case ApplePackageError.licenseRequired = error {
+                            self.dispatchOutput("此账号未拥有该 App，请先在 App Store 获取后重试。")
+                        }
                     }
                 }
                 sem.wait()
@@ -204,16 +207,17 @@ class MobileAppConnectTask: Identifiable {
 
         task.appAvatar = software.artworkUrl
         task.appName = software.name
-        task.appVersion = software.version
+        task.appVersion = downloadOutput.bundleShortVersionString
         task.appURL = URL(string: downloadOutput.downloadURL) ?? URL(fileURLWithPath: UUID().uuidString)
 
         DispatchQueue.main.asyncAndWait { self.runningTasks.append(task) }
 
         // Use bundleID + version as unique filename (no md5 available in new API)
-        let name = "\(app.bundleIdentifier)+\(software.version).ipa"
+        let name = "\(app.bundleIdentifier)+\(downloadOutput.bundleShortVersionString).ipa"
         let targetFile = storeBase.appendingPathComponent(name)
 
-        if FileManager.default.fileExists(atPath: targetFile.path) {
+        if FileManager.default.fileExists(atPath: targetFile.path),
+           (try? StorePackageValidator.validate(at: targetFile, bundleID: app.bundleIdentifier)) != nil {
             DispatchQueue.main.asyncAndWait { task.error = nil }
             return
         }
@@ -313,12 +317,14 @@ class MobileAppConnectTask: Identifiable {
 
         guard let tempUrl else {
             DispatchQueue.main.asyncAndWait {
-                task.error = lastError?.localizedDescription
+                task.error = lastError?.localizedDescription ?? "安装包下载未完成，请重试。"
             }
             return
         }
 
+        defer { try? FileManager.default.removeItem(at: tempUrl) }
         do {
+            try StorePackageValidator.validate(at: tempUrl, bundleID: app.bundleIdentifier)
             // Use new SignatureInjector API
             let injectSem = DispatchSemaphore(value: 0)
             var injectError: Error?

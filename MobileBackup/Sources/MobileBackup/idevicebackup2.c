@@ -118,8 +118,10 @@ static void notify_cb(const char *notification, void *userdata)
 		backup_domain_changed = 1;
 	} else if (!strcmp(notification, "com.apple.LocalAuthentication.ui.presented")) {
 		passcode_requested = 1;
+		printf("ITM_AUTH_WAIT\n");
 	} else if (!strcmp(notification, "com.apple.LocalAuthentication.ui.dismissed")) {
 		passcode_requested = 0;
+		printf("ITM_AUTH_DISMISSED\n");
 	} else {
 		PRINT_VERBOSE(1, "Unhandled notification '%s' (TODO: implement)\n", notification);
 	}
@@ -1024,6 +1026,7 @@ static int mb2_handle_receive_files(mobilebackup2_client_t mobilebackup2, plist_
 	char buf[32768];
 	char *fname = NULL;
 	char *dname = NULL;
+	char *last_domain = NULL;
 	char *bname = NULL;
 	char code = 0;
 	char last_code = 0;
@@ -1034,6 +1037,8 @@ static int mb2_handle_receive_files(mobilebackup2_client_t mobilebackup2, plist_
 	char *errdesc = NULL;
 
 	if (!message || (plist_get_node_type(message) != PLIST_ARRAY) || plist_array_get_size(message) < 4 || !backup_dir) return 0;
+	printf("ITM_BATCH_START\n");
+	fflush(stdout);
 
 	node = plist_array_get_item(message, 3);
 	if (plist_get_node_type(node) == PLIST_UINT) {
@@ -1047,9 +1052,41 @@ static int mb2_handle_receive_files(mobilebackup2_client_t mobilebackup2, plist_
 		if (quit_flag)
 			break;
 
+		free(dname);
+		dname = NULL;
 		nlen = mb2_receive_filename(mobilebackup2, &dname);
 		if (nlen == 0) {
 			break;
+		}
+		if (dname) {
+			const char *source = dname;
+			if (dname[0] == '/') {
+				if (strstr(dname, "/Media/DCIM/") || strstr(dname, "/Media/PhotoData/")) {
+					source = "CameraRollDomain";
+				} else if (strstr(dname, "/Containers/Data/Application/") ||
+				           strstr(dname, "/Containers/Shared/AppGroup/")) {
+					source = "AppDataDomain";
+				} else if (strstr(dname, "/Media/")) {
+					source = "MediaDomain";
+				} else {
+					source = "SystemDomain";
+				}
+			}
+			const char *end = strchr(source, '/');
+			size_t domain_len = end ? (size_t)(end - source) : strlen(source);
+			if (domain_len > 0 && domain_len <= 200 &&
+			    (!last_domain || strlen(last_domain) != domain_len || strncmp(last_domain, source, domain_len))) {
+				free(last_domain);
+				last_domain = strndup(source, domain_len);
+				if (last_domain) {
+					printf("ITM_DOMAIN_HEX:");
+					for (size_t i = 0; i < domain_len; i++) {
+						printf("%02x", (unsigned char)last_domain[i]);
+					}
+					printf("\n");
+					fflush(stdout);
+				}
+			}
 		}
 
 		nlen = mb2_receive_filename(mobilebackup2, &fname);
@@ -1174,10 +1211,13 @@ static int mb2_handle_receive_files(mobilebackup2_client_t mobilebackup2, plist_
 
 	if (dname != NULL)
 		free(dname);
+	free(last_domain);
 
 	plist_t empty_plist = plist_new_dict();
 	mobilebackup2_send_status_response(mobilebackup2, errcode, errdesc, empty_plist);
 	plist_free(empty_plist);
+	printf("ITM_BATCH_END\n");
+	fflush(stdout);
 
 	return file_count;
 }
@@ -1475,6 +1515,9 @@ static void print_usage(int argc, char **argv, int is_error)
 
 int main(int argc, char *argv[])
 {
+	setvbuf(stdout, NULL, _IONBF, 0);
+	setvbuf(stderr, NULL, _IONBF, 0);
+
 	idevice_error_t ret = IDEVICE_E_UNKNOWN_ERROR;
 	lockdownd_error_t ldret = LOCKDOWN_E_UNKNOWN_ERROR;
 	int i = 0;
@@ -2015,6 +2058,7 @@ checkpoint:
 			/* TODO: verify battery on AC enough battery remaining */
 
 			/* re-create Info.plist (Device infos, IC-Info.sidb, photos, app_ids, iTunesPrefs) */
+			printf("Collecting device information...\n");
 			if (info_plist) {
 				plist_free(info_plist);
 				info_plist = NULL;
@@ -2027,6 +2071,7 @@ checkpoint:
 			remove_file(info_path);
 			plist_write_to_file(info_plist, info_path, PLIST_FORMAT_XML, 0);
 			free(info_path);
+			printf("Device information collected.\n");
 
 			plist_free(info_plist);
 			info_plist = NULL;
@@ -2299,6 +2344,7 @@ checkpoint:
 					goto files_out;
 				}
 
+				printf("ITM_DEVICE_ACTIVE\n");
 				if (!strcmp(dlmsg, "DLMessageDownloadFiles")) {
 					/* device wants to download files from the computer */
 					mb2_set_overall_progress_from_message(message, dlmsg);

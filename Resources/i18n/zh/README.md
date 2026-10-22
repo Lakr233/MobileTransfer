@@ -1,30 +1,24 @@
-# MobileTransfer
+# iTM
 
-MobileTransfer 是一款基于 MobileBackup (`idevicebackup2`) 运行的应用程序，为 iOS 设备提供数据备份和恢复解决方案。
+作者：@Sunbelife · 新浪微博：[https://weibo.com/x1nyang](https://weibo.com/x1nyang)
 
-![截图](../../../Resources/Screenshot.png)
+iTM（iOS TimeMachine）是一款用于备份和恢复 iOS 设备的 macOS 应用，基于 Lakr Aream 的 [MobileTransfer](https://github.com/Lakr233/MobileTransfer) 开发。
 
-## 功能特性
+## 功能
 
-- [x] 备份和恢复 iOS 设备数据
-- [x] 转换并导入 [BBackupp 的备份](https://github.com/Lakr233/BBackupp) 
-- [x] 备份和恢复应用程序（实验性功能，由于 API 变化目前已失效）
-- [x] 设置备份密码
-- [x] 备份到自定义路径并从中恢复
-- [x] 增量备份（菜单 -> 备份 -> 加载检查点）
+- 备份和恢复 iOS 设备数据。
+- 选择备份位置并设置备份密码。
+- 加载检查点以进行增量备份。
+- 验证备份并转换 BBackupp 归档。
 
-## 特别说明
+由于 API 变化，实验性的应用备份与恢复功能目前无法使用。降级恢复可能损坏设备；请先确认归档和目标设备，再使用该功能。
 
-此应用程序最初设计为付费应用，但由于我们无法在应用程序备份/恢复方面提供可靠的服务，我们已停止开发和维护这个应用。我们将此项目开源，以便社区能够继续开发。
+现有的 `.mobiletransfer` 归档仍受支持。为避免影响已有备份，文件扩展名保持不变。
 
-## 激活方式
+## 许可
 
-使用此应用时，在激活提示中输入任意电子邮件地址和许可证密钥即可。
+MobileTransfer 应用代码采用 MIT 许可证。原作者的版权声明和许可证保留在 [LICENSE](../../../LICENSE) 中。第三方许可声明随应用收录于 `MobileTransfer/Resources/License.txt`。
 
-## 许可证
+随应用打包的 `MobileInstall` 命令行辅助程序包含 GPL-2.0-or-later 代码，`MobileBackup` 包含 LGPL-2.1-or-later 代码。仅在组织内部进行私有开发无需公开源码。在向组织外分发应用程序包前，请核查相应的源码提供义务和许可证要求。
 
-本项目采用 MIT 许可证 - 详情请参阅 [LICENSE](../../../LICENSE) 文件。
-
----
-
-© 2025 标准件厂长砍砍。保留所有权利。
+为保持构建兼容性，Xcode 项目和 Scheme 沿用上游名称；macOS 产品名称、图标和 Bundle Identifier 已改为 iTM。

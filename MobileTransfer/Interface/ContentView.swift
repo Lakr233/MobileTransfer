@@ -31,10 +31,14 @@ struct ContentView: View {
                     )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            Divider().padding(.horizontal, -32)
-            FootnoteView().padding(.top, 16)
+            if !isDeviceBrowser && vm.page != .backupProgress && vm.page != .restoreProgress {
+                FootnoteView()
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .padding(.top, 16)
+            }
         }
-        .animation(animation, value: vm.page)
+        .animation(isDeviceBrowser ? nil : animation, value: vm.page)
         .onChange(of: vm.page) {
             if sleepDisabled {
                 KeepAwake.disableSleep()
@@ -43,14 +47,14 @@ struct ContentView: View {
             }
         }
         .onOpenURL { openFile($0) }
-        .padding(.vertical, 16)
-        .padding(.horizontal, 32)
+        .padding(.vertical, isDeviceBrowser ? 0 : 16)
+        .padding(.horizontal, isDeviceBrowser ? 0 : 32)
         .background(BackgroundView())
     }
 
     func openFile(_ item: URL) {
         guard item.pathExtension == "mobiletransfer" else { return }
-        guard vm.page == .welcome || vm.page == .actionMenu else { return }
+        guard isDeviceBrowser else { return }
         _ = vm
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             vm.restoreLocation = item.path
@@ -63,38 +67,17 @@ struct ContentView: View {
     @ViewBuilder
     var page: some View {
         switch vm.page {
-        case .welcome:
-            WelcomeView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        case .welcome, .actionMenu, .findDevice, .prepareBackup, .prepareRestore:
+            DeviceBrowserView()
                 .onDrop(of: [.fileURL], isTargeted: nil) { items in
                     guard let item = items.first else { return false }
                     item.loadItem(forTypeIdentifier: UTType.fileURL.identifier, options: nil) { data, _ in
                         guard let data = data as? Data,
-                              let url = URL(dataRepresentation: data, relativeTo: nil)
-                        else { return }
-                        openFile(url)
+                              let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
+                        DispatchQueue.main.async { openFile(url) }
                     }
                     return true
                 }
-        case .actionMenu:
-            ActionMenuView()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onDrop(of: [.fileURL], isTargeted: nil) { items in
-                    guard let item = items.first else { return false }
-                    item.loadItem(forTypeIdentifier: UTType.fileURL.identifier, options: nil) { data, _ in
-                        guard let data = data as? Data,
-                              let url = URL(dataRepresentation: data, relativeTo: nil)
-                        else { return }
-                        openFile(url)
-                    }
-                    return true
-                }
-        case .findDevice:
-            FindDeviceView()
-        case .prepareBackup:
-            PrepareBackupView()
-        case .prepareRestore:
-            PrepareRestoreView()
         case .backupProgress:
             BackupProgressView()
         case .restoreProgress:
@@ -104,7 +87,11 @@ struct ContentView: View {
         }
     }
 
+    private var isDeviceBrowser: Bool {
+        [.welcome, .actionMenu, .findDevice, .prepareBackup, .prepareRestore].contains(vm.page)
+    }
+
     var sleepDisabled: Bool {
-        [.findDevice, .restoreProgress, .backupProgress, .installApplication].contains(vm.page)
+        [.restoreProgress, .backupProgress, .installApplication].contains(vm.page)
     }
 }

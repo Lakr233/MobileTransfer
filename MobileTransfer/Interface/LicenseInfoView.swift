@@ -90,7 +90,7 @@ struct LicenseInfoView: View {
                     .bold()
                     .frame(width: 32, alignment: .leading)
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("The MobileTransfer installed on this computer is licensed to:")
+                    Text("The iTM installed on this computer is licensed to:")
                         .bold()
                     if licenseInfo.licensee.lowercased() == "trail" {
                         Text("Trail User")

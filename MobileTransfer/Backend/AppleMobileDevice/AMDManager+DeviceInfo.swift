@@ -419,6 +419,78 @@ public extension AppleMobileDeviceManager {
         return ret
     }
 
+    /// Read the native Boolean directly, including false on devices without encryption.
+    func readBackupEncryptionStatus(udid: String) -> Bool? {
+        var result: Bool?
+        requireDevice(udid: udid, connection: .usb) { device in
+            guard let device else { return }
+            requireLockdownClient(device: device, handshake: true) { client in
+                guard let client else { return }
+                var node: plist_t?
+                defer { if let node { plist_free(node) } }
+                let error = lockdownd_get_value(client, "com.apple.mobile.backup", "WillEncrypt", &node)
+                // New devices can omit WillEncrypt until encryption has been configured.
+                // Match idevicebackup2, but first verify the backup domain is readable.
+                if error == LOCKDOWN_E_MISSING_VALUE {
+                    let values: AnyCodable? = lockdownGetValue(client: client, domain: "com.apple.mobile.backup")
+                    if let domain = values?.value as? [String: Any], domain["Version"] != nil {
+                        result = false
+                    }
+                    return
+                }
+                guard error == LOCKDOWN_E_SUCCESS, let node,
+                      plist_get_node_type(node) == PLIST_BOOLEAN else { return }
+                var value: UInt8 = 0
+                plist_get_bool_val(node, &value)
+                result = value != 0
+            }
+        }
+        return result
+    }
+
+    /// Changes only the explicitly selected USB device and verifies the saved value.
+    func renameDevice(udid: String, name: String) throws {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            throw NSError(domain: "iTM.DeviceName", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: "设备名称不能为空。"])
+        }
+        var failure: Error? = NSError(domain: "iTM.DeviceName", code: 2,
+                                     userInfo: [NSLocalizedDescriptionKey: "无法连接设备，请解锁 iPhone 并确认信任此 Mac 后重试。"])
+        requireDevice(udid: udid, connection: .usb) { device in
+            guard let device else { return }
+            requireLockdownClient(device: device, handshake: true) { client in
+                guard let client else { return }
+                // lockdownd_set_value takes ownership and frees the value with its request.
+                let node = plist_new_string(trimmed)
+                let status = lockdownd_set_value(client, nil, "DeviceName", node)
+                guard status == LOCKDOWN_E_SUCCESS else {
+                    failure = NSError(domain: "iTM.DeviceName", code: Int(status.rawValue),
+                                      userInfo: [NSLocalizedDescriptionKey: "修改名称失败，请解锁 iPhone 后重试。（错误 \(status.rawValue)）"])
+                    return
+                }
+                var savedNode: plist_t?
+                defer { if let savedNode { plist_free(savedNode) } }
+                let readStatus = lockdownd_get_value(client, nil, "DeviceName", &savedNode)
+                var savedName: String?
+                if readStatus == LOCKDOWN_E_SUCCESS, let savedNode,
+                   plist_get_node_type(savedNode) == PLIST_STRING {
+                    var length: UInt64 = 0
+                    if let pointer = plist_get_string_ptr(savedNode, &length) {
+                        savedName = String(cString: pointer)
+                    }
+                }
+                guard savedName == trimmed else {
+                    failure = NSError(domain: "iTM.DeviceName", code: 3,
+                                      userInfo: [NSLocalizedDescriptionKey: "未能确认新名称已保存，请重新读取设备信息后再试。"])
+                    return
+                }
+                failure = nil
+            }
+        }
+        if let failure { throw failure }
+    }
+
     func readFromLockdown(
         udid: String,
         domain: String? = nil,
@@ -436,6 +508,35 @@ public extension AppleMobileDeviceManager {
             requireLockdownClient(device: device, handshake: false) { client in
                 guard let client else { return }
                 result = lockdownGetValue(client: client, domain: domain, key: key)
+            }
+        }
+        return result
+    }
+
+    /// Reads related domains within one scoped USB connection and Lockdown session.
+    /// Missing domains retain the existing non-handshake fallback. Clients never escape
+    /// their owning closure and are not shared across background reads.
+    func readLockdownValues(
+        udid: String,
+        domains: [String],
+        connection: ConnectionMethod = configuration.connectionMethod
+    ) -> [String: AnyCodable] {
+        var result: [String: AnyCodable] = [:]
+        requireDevice(udid: udid, connection: connection) { device in
+            guard let device else { return }
+            requireLockdownClient(device: device, handshake: true) { client in
+                guard let client else { return }
+                for domain in domains {
+                    result[domain] = lockdownGetValue(client: client, domain: domain)
+                }
+            }
+            let missing = domains.filter { result[$0] == nil }
+            guard !missing.isEmpty else { return }
+            requireLockdownClient(device: device, handshake: false) { client in
+                guard let client else { return }
+                for domain in missing {
+                    result[domain] = lockdownGetValue(client: client, domain: domain)
+                }
             }
         }
         return result

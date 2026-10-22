@@ -25,7 +25,7 @@ public extension AppleMobileDeviceManager {
         instproxy_client_free(client)
     }
 
-    func listApplications(device: idevice_t) -> AnyCodableDictionary? {
+    func listApplications(device: idevice_t, includeIcons: Bool = true) -> AnyCodableDictionary? {
         var applicationDic: AnyCodableDictionary = [:]
         var fullyDecoded = false
         requireInstallProxyService(device: device) { inst_client in
@@ -36,6 +36,8 @@ public extension AppleMobileDeviceManager {
                     "CFBundleIdentifier",
                     "CFBundleShortVersionString",
                     "CFBundleDisplayName",
+                    "StaticDiskUsage",
+                    "DynamicDiskUsage",
                     "ApplicationSINF",
                     "iTunesMetadata",
                 ], // looks like that's all, really is?
@@ -56,7 +58,9 @@ public extension AppleMobileDeviceManager {
 
             var sb_client: sbservices_client_t?
             defer { if let sb_client { sbservices_client_free(sb_client) } }
-            sbservices_client_start_service(device, &sb_client, UUID().uuidString)
+            if includeIcons {
+                sbservices_client_start_service(device, &sb_client, UUID().uuidString)
+            }
 
             let appCount = plist_array_get_size(apps) // later just free apps, frees all
             for idx in 0 ..< appCount {
@@ -112,14 +116,63 @@ public extension AppleMobileDeviceManager {
         return applicationDic
     }
 
+    /// Device usage is a dated snapshot, not the size of encrypted archive files.
+    func applicationUsageSnapshot(udid: String) -> [String: Any]? {
+        guard let apps = listApplications(udid: udid, connection: .usb, includeIcons: false),
+              let data = try? PropertyListEncoder().encode(apps),
+              let decoded = (try? PropertyListSerialization.propertyList(from: data, format: nil)) as? [String: [String: Any]]
+        else { return nil }
+        var sizes: [String: [String: Int64]] = [:]
+        for (identifier, app) in decoded {
+            var entry: [String: Int64] = [:]
+            for key in ["StaticDiskUsage", "DynamicDiskUsage"] {
+                if let number = app[key] as? NSNumber, number.int64Value >= 0 {
+                    entry[key] = number.int64Value
+                }
+            }
+            if !entry.isEmpty { sizes[identifier] = entry }
+        }
+        return ["DeviceIdentifier": udid, "CapturedAt": Date(), "Applications": sizes]
+    }
+
+    /// Streams icons after the app list is available, reusing one SpringBoard service.
+    /// Cancellation is checked between requests; a failed icon does not fail the list.
+    func readApplicationIcons(
+        udid: String,
+        identifiers: [String],
+        progress: Progress,
+        onIcon: (String, Data) -> Void
+    ) {
+        guard !progress.isCancelled else { return }
+        requireDevice(udid: udid, connection: .usb) { device in
+            guard let device, !progress.isCancelled else { return }
+            var client: sbservices_client_t?
+            guard sbservices_client_start_service(device, &client, UUID().uuidString) == SBSERVICES_E_SUCCESS,
+                  let client else { return }
+            defer { sbservices_client_free(client) }
+            for identifier in identifiers {
+                guard !progress.isCancelled else { break }
+                autoreleasepool {
+                    var buffer: UnsafeMutablePointer<CChar>?
+                    defer { free(buffer) }
+                    var length: UInt64 = 0
+                    guard sbservices_get_icon_pngdata(client, identifier, &buffer, &length) == SBSERVICES_E_SUCCESS,
+                          let buffer, length > 0 else { return }
+                    onIcon(identifier, Data(bytes: buffer, count: Int(length)))
+                }
+            }
+        }
+    }
+
     func listApplications(
         udid: String,
-        connection: ConnectionMethod = configuration.connectionMethod
+        connection: ConnectionMethod = configuration.connectionMethod,
+        includeIcons: Bool = true
     ) -> AnyCodableDictionary? {
         var result: AnyCodableDictionary?
         requireDevice(udid: udid, connection: connection) { device in
             guard let device else { return }
-            result = listApplications(device: device)
+            result = listApplications(device: device, includeIcons: includeIcons)
         }
         return result
     }

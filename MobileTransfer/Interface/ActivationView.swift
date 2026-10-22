@@ -41,7 +41,7 @@ struct ActivationView: View {
             } else {
                 Grid(alignment: .leading, horizontalSpacing: spacing, verticalSpacing: 8) {
                     GridRow {
-                        Text("This is a trial version of MobileTransfer. Please activate the app to use all features.")
+                        Text("This is a trial version of iTM. Please activate the app to use all features.")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .gridCellColumns(2)
                     }

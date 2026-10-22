@@ -69,7 +69,7 @@ struct InstallApplicationView: View {
         } label: {
             CardContentView {
                 Text("Next")
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(.tint)
                     .frame(maxWidth: .infinity)
             }
         }

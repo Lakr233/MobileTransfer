@@ -17,5 +17,6 @@ struct BackupTaskView: View {
                 ApplicationDownloadTaskView(task: applicationDataTask)
             }
         }
+        .frame(maxWidth: .infinity)
     }
 }

@@ -16,7 +16,7 @@ class ViewModel {
     static let shared = ViewModel()
 
     static let defaultBackupLocation = URL(fileURLWithPath: NSTemporaryDirectory())
-        .appendingPathComponent("MobileTransfer")
+        .appendingPathComponent("iTM")
 
     enum Page: String {
         case welcome
@@ -40,6 +40,11 @@ class ViewModel {
     var mode: Mode = .unspecified
 
     var deviceIdentifier: String?
+    var selectedDeviceName: String?
+    var selectedDeviceModel: String?
+    var selectedDeviceVersion: String?
+    var selectedDeviceIcon = "iphone"
+    var selectedDeviceRecord: AppleMobileDeviceManager.DeviceRecord?
 
     // MARK: - backup
 
@@ -58,20 +63,7 @@ class ViewModel {
 
     var backupTask: BackupTask?
 
-    // disabled by default due to recent api changes on Apple's server side
-    @ObservationIgnored
-    private var _showAppPackageDownloadPanel = StoredValue(key: "wiki.qaq.showAppPackageDownloadPanel", defaultValue: false)
-    var showAppPackageDownloadPanel: Bool {
-        get {
-            access(keyPath: \.showAppPackageDownloadPanel)
-            return _showAppPackageDownloadPanel.get()
-        }
-        set {
-            withMutation(keyPath: \.showAppPackageDownloadPanel) {
-                _showAppPackageDownloadPanel.set(newValue)
-            }
-        }
-    }
+
 
     // MARK: - restore
 
@@ -135,8 +127,13 @@ class ViewModel {
         restoreTask?.terminate()
         applicationInstallTask?.terminate()
         deviceIdentifier = nil
+        selectedDeviceName = nil
+        selectedDeviceModel = nil
+        selectedDeviceVersion = nil
+        selectedDeviceIcon = "iphone"
+        selectedDeviceRecord = nil
         mode = .unspecified
-        backupApps = showAppPackageDownloadPanel
+        backupApps = false
         backupEncrypted = false
         backupApplicationList = []
         backupApplicationAccountAllowed = []

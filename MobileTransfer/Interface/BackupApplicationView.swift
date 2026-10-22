@@ -51,7 +51,7 @@ struct BackupApplicationView: View {
     var body: some View {
         @Bindable var vm = vm
         CardContentView {
-            CardContentHeader(icon: "arrow.down.circle", title: "Backup Applications") {
+            CardContentHeader(icon: "arrow.down.circle", title: "备份 App 安装包") {
                 if vm.backupApps {
                     if allSignedIn {
                         Image(systemName: "checkmark.circle.fill")
@@ -67,13 +67,7 @@ struct BackupApplicationView: View {
             .animation(.spring, value: avm.accounts)
             .animation(.spring, value: vm.backupApps)
             Text("Backups do not include applications themselves. If you need to automatically download during backup and install during recovery, please log in to the corresponding app store account here. Only App Store apps are supported, TestFlight or in-house apps are ignored.")
-            Button {
-                openRestoreModeInfo = true
-            } label: {
-                Text("Only Merge Restore can be used to install applications downloaded here.")
-                    .foregroundStyle(.accent)
-                    .underline()
-            }
+
             .buttonStyle(.plain)
             .sheet(isPresented: $openRestoreModeInfo) {
                 RestoreModeInfoView()
@@ -107,7 +101,7 @@ struct BackupApplicationView: View {
                                     openSignIn = account
                                 } label: {
                                     Text("Sign In")
-                                        .foregroundStyle(.accent)
+                                        .foregroundStyle(.tint)
                                 }
                             }
                         }

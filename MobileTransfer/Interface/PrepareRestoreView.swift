@@ -13,63 +13,63 @@ struct PrepareRestoreView: View {
     var restorable: Bool {
         [
             vm.restoreLocation != nil,
+            targetIdentifier != nil && vm.deviceIdentifier == targetIdentifier,
             !vm.restoreArchiveIsPasswordProtected
                 || !vm.restorePassword.isEmpty,
             vm.restoreMode != .unspecified,
         ].allSatisfy(\.self)
     }
 
+    @State private var checkingArchive = false
+    @State private var targetIdentifier: String?
+
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 16) {
-                Text("Prepare Restore")
-                    .font(.title2)
-                    .bold()
-
-                RestoreArchivePickerView()
-
-                if vm.restoreArchiveIsPasswordProtected {
-                    HStack(alignment: .top, spacing: 16) {
-                        RestoreModePickerView()
-                            .frame(maxWidth: .infinity)
-                        RestorePasswordView()
-                            .frame(maxWidth: .infinity)
-                    }
-                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                } else {
-                    RestoreModePickerView()
-                        .frame(maxWidth: .infinity)
-                        .transition(
-                            .opacity.combined(with: .scale(scale: 0.95))
-                        )
+        @Bindable var vm = vm
+        VStack(alignment: .leading, spacing: 20) {
+            Text("恢复备份").font(.title2.weight(.semibold))
+            Text("恢复到：\(vm.selectedDeviceName ?? "iPhone") · \(vm.selectedDeviceModel ?? "")")
+                .foregroundStyle(.secondary)
+            RestoreArchivePickerView(onCheckingChange: { checkingArchive = $0 })
+            Divider()
+            Picker("恢复方式", selection: $vm.restoreMode) {
+                Text("替换设备数据").tag(ViewModel.RestoreMode.replace)
+                Text("合并到现有数据").tag(ViewModel.RestoreMode.merge)
+                if vm.restoreApplicationsCount > 0 {
+                    Text("合并（不安装应用）").tag(ViewModel.RestoreMode.mergeWithoutInstallApplication)
                 }
-
-                Button {
-                    start()
-                } label: {
-                    CardContentView {
-                        Text("Start Restore")
-                            .foregroundStyle(.accent)
-                            .frame(maxWidth: .infinity)
-                    }
+            }
+            .pickerStyle(.menu)
+            Text(vm.restoreMode == .replace ? "将抹掉这台设备的现有数据，再恢复所选备份。" : "将备份恢复到这台设备，与现有数据合并。")
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            if vm.restoreArchiveIsPasswordProtected {
+                SecureField("备份密码", text: $vm.restorePassword)
+                    .textFieldStyle(.roundedBorder)
+                Text("请输入创建这份加密备份时使用的密码。")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            Divider()
+            HStack {
+                Button("取消", role: .cancel) {
+                    vm.restorePassword = ""
+                    vm.mode = .backup
+                    vm.page = .prepareBackup
                 }
-                .buttonStyle(.plain)
-                .opacity(restorable ? 1 : 0.5)
-                .disabled(!restorable)
-
-                Spacer().frame(height: 128)
+                .keyboardShortcut(.cancelAction)
+                Spacer()
+                Button("开始恢复", action: start)
+                    .buttonStyle(.borderedProminent)
+                    .disabled(!restorable || checkingArchive)
             }
         }
-        .animation(.spring, value: vm.restoreLocation)
-        .animation(.spring, value: vm.restorePassword)
-        .animation(.spring, value: vm.restoreArchiveIsPasswordProtected)
-        .animation(.spring, value: vm.restoreMode)
-        .frame(maxWidth: 650)
-        .padding(.horizontal, 32)
+        .padding(24)
+        .frame(width: 560)
+        .onAppear {
+            targetIdentifier = vm.deviceIdentifier
+            if vm.restoreMode == .unspecified { vm.restoreMode = .replace }
+        }
         .sheet(isPresented: $openMergeRestoreCheck) {
-            MergeRestoreCheckView(onConfirm: {
-                vm.page = .restoreProgress
-            })
+            MergeRestoreCheckView(onConfirm: { vm.page = .restoreProgress })
         }
     }
 
@@ -78,7 +78,8 @@ struct PrepareRestoreView: View {
     @State var openMergeRestoreCheck = false
 
     func start() {
-        guard let window = NSApp.mainWindow else { return }
+        guard restorable, !checkingArchive else { return }
+        guard let window = NSApp.keyWindow else { return }
 
         guard checkIfBackupVersionMatchesRequirements() || overrideSystemVersionCheck else {
             let alert = NSAlert()
@@ -105,7 +106,7 @@ struct PrepareRestoreView: View {
                     }
                 } else if response == .alertSecondButtonReturn {
                     replaceBackupManifestWithCurrentSystemVersion()
-                } else if response == .alertSecondButtonReturn {
+                } else if response.rawValue == NSApplication.ModalResponse.alertFirstButtonReturn.rawValue + 2 {
                     // just open Finder
                     NSWorkspace.shared.openApplication(
                         at: URL(fileURLWithPath: "/System/Library/CoreServices/Finder.app"),
@@ -230,7 +231,7 @@ struct PrepareRestoreView: View {
 
     func replaceBackupManifestWithCurrentSystemVersion() {
         guard let udid = vm.deviceIdentifier else { return }
-        guard let window = NSApp.mainWindow else { return }
+        guard let window = NSApp.keyWindow else { return }
 
         let query = AppleMobileDeviceManager.shared.obtainDeviceInfo(
             udid: udid,
@@ -345,7 +346,7 @@ struct PrepareRestoreView: View {
     }
 
     func popEraseConfirm() {
-        guard let window = NSApp.mainWindow else { return }
+        guard let window = NSApp.keyWindow else { return }
 
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("Erase Device", comment: "")

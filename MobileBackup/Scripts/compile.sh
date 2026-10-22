@@ -5,8 +5,6 @@ set -o pipefail
 
 cd "$(dirname $0)"
 
-./update.sh
-
 cd ../
 
 CLEAN=0
@@ -28,12 +26,6 @@ done
 rm -rf Build Archive Archive.* || true
 
 export PATH=$PATH:/opt/homebrew/bin/
-
-COMMIT_HASH=$(git -C ./libimobiledevice rev-parse HEAD)
-COMMIT_HASH=${COMMIT_HASH:0:8}
-echo "[*] libimobiledevice commit: $COMMIT_HASH"
-
-sed -i '' "s/\.define(\"PACKAGE_VERSION=.*\"/\.define(\"PACKAGE_VERSION=\\\\\"$COMMIT_HASH\\\\\"\"/" ./Package.swift
 
 xcodebuild -scheme MobileBackup \
     -derivedDataPath Build \

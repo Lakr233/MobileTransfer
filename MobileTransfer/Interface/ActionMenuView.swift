@@ -67,8 +67,7 @@ private struct MenuActionButtonView: View {
                     .font(.title2)
             }
             .padding()
-            .background(.background.opacity(0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .itmGlassSurface(cornerRadius: 18, interactive: true)
         }
         .buttonStyle(.plain)
     }

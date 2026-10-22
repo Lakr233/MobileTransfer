@@ -27,11 +27,7 @@ fi
 
 echo "[*] start $0 at $(date)"
 
-rm -rf $WORKSPACE/MobileTransfer.app 2>/dev/null || true
-
-echo "[*] update submodules..."
-./MobileBackup/Scripts/update.sh
-./MobileInstall/Scripts/update.sh
+rm -rf $WORKSPACE/iTM.app 2>/dev/null || true
 
 echo "[*] resolve dependencies..."
 xcodebuild -resolvePackageDependencies \
@@ -53,33 +49,34 @@ echo "[*] exporting..."
 xcodebuild \
     -archivePath Archive.xcarchive \
     -exportOptionsPlist MobileTransfer/Resources/ExportOptions.plist \
-    -exportPath Build/MobileTransfer \
+    -exportPath Build/iTM \
     -allowProvisioningUpdates \
     -exportArchive \
     | xcbeautify
 
 echo "[*] searching for app..."
-APP_PATH=$(realpath Build/MobileTransfer/*.app)
+APP_PATH=$(realpath Build/iTM/*.app)
 
 echo "[*] product at $APP_PATH"
 
 echo "[*] notarizing..."
+ITM_NOTARY_PROFILE=${ITM_NOTARY_PROFILE:?Set ITM_NOTARY_PROFILE to your notarytool keychain profile}
 /usr/bin/ditto -c -k --keepParent \
     "$APP_PATH" \
-    "Build/MobileTransfer.zip"
+    "Build/iTM.zip"
 
 xcrun notarytool submit \
-    --keychain-profile "Lakr233" \
+    --keychain-profile "$ITM_NOTARY_PROFILE" \
     --wait \
-    "Build/MobileTransfer.zip"
+    "Build/iTM.zip"
 
-rm -rf "Build/MobileTransfer.zip"
+rm -rf "Build/iTM.zip"
 
 echo "[*] stapling ticket..."
 xcrun stapler staple $APP_PATH
 spctl -a -v $APP_PATH
 
 echo "[*] copying..."
-cp -a $APP_PATH $WORKSPACE/MobileTransfer.app
+cp -a $APP_PATH $WORKSPACE/iTM.app
 
 echo "[*] done $0 at $(date)"

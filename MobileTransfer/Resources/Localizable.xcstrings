@@ -36,6 +36,16 @@
         }
       }
     },
+    "A new incremental version will be created. The selected backup stays unchanged." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将创建新的增量备份版本，所选备份保持不变。"
+          }
+        }
+      }
+    },
     "Abort" : {
       "localizations" : {
         "zh-Hans" : {
@@ -112,6 +122,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设备上的数据将被抹掉，备份中的数据将被恢复。"
+          }
+        }
+      }
+    },
+    "All Device Information" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部设备信息"
+          }
+        }
+      }
+    },
+    "App data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用数据"
           }
         }
       }
@@ -206,12 +236,32 @@
         }
       }
     },
+    "Available Storage" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用存储空间"
+          }
+        }
+      }
+    },
     "Back" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "返回"
+          }
+        }
+      }
+    },
+    "Backing up %@…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在备份 %@…"
           }
         }
       }
@@ -246,6 +296,26 @@
         }
       }
     },
+    "Backup complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份完成"
+          }
+        }
+      }
+    },
+    "Backup details" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份详情"
+          }
+        }
+      }
+    },
     "Backup Device" : {
       "localizations" : {
         "zh-Hans" : {
@@ -262,6 +332,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "备份加密"
+          }
+        }
+      }
+    },
+    "Backup failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份失败"
+          }
+        }
+      }
+    },
+    "Backup failed before completion. The partial archive cannot be restored." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份未完成，当前文件不能用于恢复。"
+          }
+        }
+      }
+    },
+    "Backup History" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份历史"
           }
         }
       }
@@ -286,6 +386,16 @@
         }
       }
     },
+    "Backup password is required to restore an encrypted backup. Please keep it safe." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复加密备份需要备份密码。请妥善保管。"
+          }
+        }
+      }
+    },
     "Backup Requested" : {
       "localizations" : {
         "zh-Hans" : {
@@ -302,6 +412,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "备份不包含应用程序本身。若需要在备份时自动下载，并在恢复时安装，请在此处登录对应的应用商店账号。仅可下载 App Store 软件，其他软件将被忽略。"
+          }
+        }
+      }
+    },
+    "Battery" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池"
           }
         }
       }
@@ -376,6 +496,16 @@
         }
       }
     },
+    "Change Backup Location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更改备份位置"
+          }
+        }
+      }
+    },
     "Checking backup encryption..." : {
       "localizations" : {
         "zh-Hans" : {
@@ -406,6 +536,16 @@
         }
       }
     },
+    "Choose a backup location before starting." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始前请选择备份位置。"
+          }
+        }
+      }
+    },
     "Choose a Location to Save Backup" : {
       "localizations" : {
         "zh-Hans" : {
@@ -416,12 +556,52 @@
         }
       }
     },
+    "Choose an Existing Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择现有备份"
+          }
+        }
+      }
+    },
+    "Choose Another Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择其他备份…"
+          }
+        }
+      }
+    },
     "Choose Backup Archive to Restore" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择一个备份归档来恢复"
+          }
+        }
+      }
+    },
+    "Choose Backup from File…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从文件中选择备份…"
+          }
+        }
+      }
+    },
+    "Choose Backup Location" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择备份位置"
           }
         }
       }
@@ -452,6 +632,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已完成"
+          }
+        }
+      }
+    },
+    "Confirm Password" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认密码"
           }
         }
       }
@@ -506,6 +696,16 @@
         }
       }
     },
+    "Continue or Update an Existing Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续或更新现有备份…"
+          }
+        }
+      }
+    },
     "Continue to Restore" : {
       "localizations" : {
         "zh-Hans" : {
@@ -526,12 +726,12 @@
         }
       }
     },
-    "Convert BBackupp archive for %@ to MobileTransfer format?" : {
+    "Convert BBackupp archive for %@ to iTM format?" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "转换来自设备 %@ 的 BBackupp 归档到迁移文件？"
+            "value" : "转换来自设备 %@ 的 BBackupp 归档到 iTM 格式？"
           }
         }
       }
@@ -566,6 +766,16 @@
         }
       }
     },
+    "Could not check backup encryption. Reconnect the device and try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法检查备份加密状态。请重新连接设备后重试。"
+          }
+        }
+      }
+    },
     "Could not check the backup encryption status of this device, please proceed with caution." : {
       "localizations" : {
         "zh-Hans" : {
@@ -576,12 +786,72 @@
         }
       }
     },
+    "Could not enable backup encryption. Check the device and try again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法启用备份加密。请检查设备后重试。"
+          }
+        }
+      }
+    },
+    "Current batch" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前批次"
+          }
+        }
+      }
+    },
+    "Current batch %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前批次 %@"
+          }
+        }
+      }
+    },
     "Data Excluded By App (some game resources, etc.)" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "已设置不可备份的数据（部分游戏资源等）"
+          }
+        }
+      }
+    },
+    "Device" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备"
+          }
+        }
+      }
+    },
+    "Device data has been received." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已接收设备数据。"
+          }
+        }
+      }
+    },
+    "Device Details" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备详情"
           }
         }
       }
@@ -602,6 +872,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设备未激活"
+          }
+        }
+      }
+    },
+    "Devices found" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Devices found"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已搜索到以下设备"
           }
         }
       }
@@ -686,12 +972,42 @@
         }
       }
     },
+    "Enable Encryption" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用加密"
+          }
+        }
+      }
+    },
+    "Enabling backup encryption… Confirm on your device if asked." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在启用备份加密…如设备提示，请在设备上确认。"
+          }
+        }
+      }
+    },
     "Encrypted Backup" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "加密备份"
+          }
+        }
+      }
+    },
+    "Encrypted backups can also include saved passwords, Wi-Fi settings, website history, Health data, and call history. Keep the backup password safe; it is required to restore the backup." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密备份还可包含已保存的密码、Wi-Fi 设置、网站历史记录、“健康”数据和通话记录等敏感数据。请妥善保管备份密码，恢复时需要使用。"
           }
         }
       }
@@ -837,6 +1153,16 @@
         }
       }
     },
+    "Finding backups…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在查找备份…"
+          }
+        }
+      }
+    },
     "Forgot password?" : {
       "localizations" : {
         "zh-Hans" : {
@@ -973,6 +1299,16 @@
         }
       }
     },
+    "Installed Apps" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安装应用"
+          }
+        }
+      }
+    },
     "Installing %d apps..." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1033,6 +1369,26 @@
         }
       }
     },
+    "Latest backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最新备份"
+          }
+        }
+      }
+    },
+    "Latest backup: %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最新备份：%@"
+          }
+        }
+      }
+    },
     "Learn More (Enable Encrypted Backup)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1083,6 +1439,16 @@
         }
       }
     },
+    "Manifest.db not found" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到 Manifest.db"
+          }
+        }
+      }
+    },
     "Manifest.plist not found" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1099,6 +1465,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无法读取 Manifest.plist 文件"
+          }
+        }
+      }
+    },
+    "Media" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "媒体"
           }
         }
       }
@@ -1216,6 +1592,26 @@
         }
       }
     },
+    "New Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建备份…"
+          }
+        }
+      }
+    },
+    "New Password" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新密码"
+          }
+        }
+      }
+    },
     "Next" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1232,6 +1628,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未找到应用商店账号"
+          }
+        }
+      }
+    },
+    "No completed backup found" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到已完成的备份"
+          }
+        }
+      }
+    },
+    "No completed backup found for this device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到此设备已完成的备份。"
           }
         }
       }
@@ -1266,12 +1682,72 @@
         }
       }
     },
+    "Open details to see what happened." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开详情查看具体情况。"
+          }
+        }
+      }
+    },
+    "Opening Save Dialog…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在打开存储位置选择…"
+          }
+        }
+      }
+    },
+    "Overall" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总进度"
+          }
+        }
+      }
+    },
     "Password" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "密码"
+          }
+        }
+      }
+    },
+    "Passwords do not match." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两次输入的密码不一致。"
+          }
+        }
+      }
+    },
+    "Photo count is not available from device information." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法从设备信息获取照片数量。"
+          }
+        }
+      }
+    },
+    "Photos" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "照片"
           }
         }
       }
@@ -1386,12 +1862,52 @@
         }
       }
     },
+    "Preparing backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在准备备份…"
+          }
+        }
+      }
+    },
+    "Preparing Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在准备备份…"
+          }
+        }
+      }
+    },
+    "Preparing data on iPhone…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone 正在准备数据…"
+          }
+        }
+      }
+    },
     "Privacy Policy" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐私政策"
+          }
+        }
+      }
+    },
+    "Reading device information…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在读取设备信息…"
           }
         }
       }
@@ -1486,6 +2002,26 @@
         }
       }
     },
+    "Resume Incremental Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续增量备份"
+          }
+        }
+      }
+    },
+    "Retry Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试备份"
+          }
+        }
+      }
+    },
     "Revoke" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1546,12 +2082,52 @@
         }
       }
     },
+    "Selected backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已选备份"
+          }
+        }
+      }
+    },
     "Selected file is not a directory" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "选取的文件不是文件夹"
+          }
+        }
+      }
+    },
+    "Serial Number" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "序列号"
+          }
+        }
+      }
+    },
+    "Set Backup Password" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置备份密码"
+          }
+        }
+      }
+    },
+    "Shared app data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用共享数据"
           }
         }
       }
@@ -1636,12 +2212,32 @@
         }
       }
     },
+    "Start a New Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始新备份"
+          }
+        }
+      }
+    },
     "Start Backup" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始备份"
+          }
+        }
+      }
+    },
+    "Start Incremental Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始增量备份"
           }
         }
       }
@@ -1716,6 +2312,16 @@
         }
       }
     },
+    "Storage" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存储空间"
+          }
+        }
+      }
+    },
     "Storage Location" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1752,6 +2358,16 @@
         }
       }
     },
+    "System data" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统数据"
+          }
+        }
+      }
+    },
     "System Data (photos, contacts, messages, emails...)" : {
       "localizations" : {
         "zh-Hans" : {
@@ -1768,6 +2384,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "系统数据，如照片、音乐、信息等，将会被合并。"
+          }
+        }
+      }
+    },
+    "System Version" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统版本"
           }
         }
       }
@@ -1858,12 +2484,22 @@
         }
       }
     },
-    "The MobileTransfer installed on this computer is licensed to:" : {
+    "The first backup may take a few minutes to prepare. Confirm any prompt on your iPhone." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此计算机安装的 迁移 授权给："
+            "value" : "首次备份可能需要几分钟准备。请在 iPhone 上确认出现的提示。"
+          }
+        }
+      }
+    },
+    "The iTM installed on this computer is licensed to:" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此计算机安装的 iTM 授权给："
           }
         }
       }
@@ -1908,6 +2544,16 @@
         }
       }
     },
+    "The unfinished incremental version will continue from its previous complete snapshot." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未完成的增量备份版本将从上一个完整快照继续。"
+          }
+        }
+      }
+    },
     "There are two types of restore modes, **Merge Restore** and **Replace Restore**." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1928,6 +2574,26 @@
         }
       }
     },
+    "This backup belongs to another device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此备份属于另一台设备。"
+          }
+        }
+      }
+    },
+    "This backup cannot be continued." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法继续此备份。"
+          }
+        }
+      }
+    },
     "This backup does not include any apps, we suggest you to choose **Replace Restore**." : {
       "localizations" : {
         "zh-Hans" : {
@@ -1938,12 +2604,32 @@
         }
       }
     },
+    "This backup has no verified incremental checkpoint. Retrying may transfer all device data again." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此备份没有经过验证的增量检查点。重试可能需要重新传输设备的全部数据。"
+          }
+        }
+      }
+    },
     "This backup includes %lld apps, which can not be installed if using Replace Restore." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "此备份包含 %lld 个软件安装包。这些软件不能在使用替换恢复时安装。"
+          }
+        }
+      }
+    },
+    "This backup is already in use." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这份备份正在使用中。"
           }
         }
       }
@@ -2004,12 +2690,12 @@
         }
       }
     },
-    "This is a trial version of MobileTransfer. Please activate the app to use all features." : {
+    "This is a trial version of iTM. Please activate the app to use all features." : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你正在试用迁移。请使用授权码激活软件以利用全部功能。"
+            "value" : "你正在试用 iTM。请使用授权码激活软件以利用全部功能。"
           }
         }
       }
@@ -2040,6 +2726,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "试用用户"
+          }
+        }
+      }
+    },
+    "Transferring device data…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在传输设备数据…"
           }
         }
       }
@@ -2180,6 +2876,38 @@
         }
       }
     },
+    "Unknown Model" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unknown Model"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知型号"
+          }
+        }
+      }
+    },
+    "Unnamed Device" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unnamed Device"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未命名设备"
+          }
+        }
+      }
+    },
     "Upgrade with Finder" : {
       "localizations" : {
         "zh-Hans" : {
@@ -2226,6 +2954,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "验证下载内容…"
+          }
+        }
+      }
+    },
+    "Version history requires an APFS volume." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本历史需要 APFS 卷。"
+          }
+        }
+      }
+    },
+    "View backup details" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看备份详情"
           }
         }
       }
@@ -2319,6 +3067,1386 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你已安装备份中所包含的全部软件。"
+          }
+        }
+      }
+    },
+    "Backup Options" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份选项"
+          }
+        }
+      }
+    },
+    "Reading installed apps…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在读取已安装应用…"
+          }
+        }
+      }
+    },
+    "Could not read installed apps." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法读取已安装应用。"
+          }
+        }
+      }
+    },
+    "Enabled" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已开启"
+          }
+        }
+      }
+    },
+    "Retry" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重试"
+          }
+        }
+      }
+    },
+    "General" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用"
+          }
+        }
+      }
+    },
+    "Device Information" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备信息"
+          }
+        }
+      }
+    },
+    "Home" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "概览"
+          }
+        }
+      }
+    },
+    "Choose Device…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择设备…"
+          }
+        }
+      }
+    },
+    "Devices" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备"
+          }
+        }
+      }
+    },
+    "Backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份"
+          }
+        }
+      }
+    },
+    "Software" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "软件"
+          }
+        }
+      }
+    },
+    "Back up all device data to this Mac" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将设备上的所有数据备份到此 Mac"
+          }
+        }
+      }
+    },
+    "Storage information is unavailable." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时无法获取储存信息。"
+          }
+        }
+      }
+    },
+    "Storage Information…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "储存信息…"
+          }
+        }
+      }
+    },
+    "View" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "视图"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别"
+          }
+        }
+      }
+    },
+    "Property" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "属性"
+          }
+        }
+      }
+    },
+    "Value" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "值"
+          }
+        }
+      }
+    },
+    "Filter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "筛选"
+          }
+        }
+      }
+    },
+    "Used" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已使用"
+          }
+        }
+      }
+    },
+    "USB" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USB"
+          }
+        }
+      }
+    },
+    "Application" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用"
+          }
+        }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本"
+          }
+        }
+      }
+    },
+    "Bundle ID" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bundle ID"
+          }
+        }
+      }
+    },
+    "No Devices" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无设备"
+          }
+        }
+      }
+    },
+    "No Device Connected" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未连接设备"
+          }
+        }
+      }
+    },
+    "Refresh Devices" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刷新设备"
+          }
+        }
+      }
+    },
+    "Trust Device…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信任设备…"
+          }
+        }
+      }
+    },
+    "Select a Device" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择设备"
+          }
+        }
+      }
+    },
+    "Select a device in the sidebar to view its details." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在侧栏中选择设备以查看详情。"
+          }
+        }
+      }
+    },
+    "Could Not Read Device" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法读取设备"
+          }
+        }
+      }
+    },
+    "The USB device is connected, but its information could not be read. Unlock the device and check the cable connection." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USB 设备已连接，但无法读取设备信息。请解锁设备并检查线缆连接。"
+          }
+        }
+      }
+    },
+    "Total Storage Capacity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总储存容量"
+          }
+        }
+      }
+    },
+    "The device’s reported physical storage capacity." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备报告的整机储存容量。"
+          }
+        }
+      }
+    },
+    "Currently Available Space" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前可用空间"
+          }
+        }
+      }
+    },
+    "Space currently reported as available for writing; used by the status bar." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备当前报告可写入的空间，底部剩余空间使用此数值。"
+          }
+        }
+      }
+    },
+    "Reserved Data Space" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据预留空间"
+          }
+        }
+      }
+    },
+    "Space reserved by the device for data operations." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备为数据操作预留的空间。"
+          }
+        }
+      }
+    },
+    "Space Available for Restore" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复操作可用空间"
+          }
+        }
+      }
+    },
+    "Space the device reports as available for restore operations." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备为恢复操作报告的可用容量。"
+          }
+        }
+      }
+    },
+    "Data Partition Capacity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据分区容量"
+          }
+        }
+      }
+    },
+    "Capacity of the partition used for apps and personal data." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于应用和个人数据的数据分区容量。"
+          }
+        }
+      }
+    },
+    "Data Partition Available Space" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据分区可用容量（接口统计）"
+          }
+        }
+      }
+    },
+    "A separate system capacity statistic; its accounting differs from currently available space." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一项系统容量统计，统计口径与当前可用空间不同，不用于底部剩余空间。"
+          }
+        }
+      }
+    },
+    "System Partition Capacity" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统分区容量"
+          }
+        }
+      }
+    },
+    "Capacity of the partition used by the operating system." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于存放操作系统的分区容量。"
+          }
+        }
+      }
+    },
+    "System Partition Available Space" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统分区剩余空间"
+          }
+        }
+      }
+    },
+    "Available space in the system partition; zero does not mean personal storage is full." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统分区中的可用空间；此处为零不表示个人储存空间已满。"
+          }
+        }
+      }
+    },
+    "Storage Statistics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "储存用量统计"
+          }
+        }
+      }
+    },
+    "Whether the device returned storage usage statistics." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否已完成储存用量统计。"
+          }
+        }
+      }
+    },
+    "Storage Chip Diagnostics" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "储存芯片诊断记录"
+          }
+        }
+      }
+    },
+    "Internal chip diagnostics, not a storage capacity or health score." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备内部的芯片诊断记录，不是容量或健康评分，无需手动处理。"
+          }
+        }
+      }
+    },
+    "Battery Level" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余电量"
+          }
+        }
+      }
+    },
+    "The device’s current battery percentage." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备当前的电量百分比。"
+          }
+        }
+      }
+    },
+    "Charging Status" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电状态"
+          }
+        }
+      }
+    },
+    "Whether the battery is charging now." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池当前是否正在充电。"
+          }
+        }
+      }
+    },
+    "External Power" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外部电源"
+          }
+        }
+      }
+    },
+    "Whether the device is connected to an external power source." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备当前是否已接通外部电源。"
+          }
+        }
+      }
+    },
+    "External Charging Support" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外部充电支持"
+          }
+        }
+      }
+    },
+    "Whether the connected power source can charge the device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前外部电源是否支持为设备充电。"
+          }
+        }
+      }
+    },
+    "Fully Charged" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是否充满"
+          }
+        }
+      }
+    },
+    "Whether the device reports that charging is complete." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否报告电量已充满。"
+          }
+        }
+      }
+    },
+    "Battery Present" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是否配备电池"
+          }
+        }
+      }
+    },
+    "Whether this device reports a built-in battery." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否报告配备电池。"
+          }
+        }
+      }
+    },
+    "Battery Measurement Support" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电量检测支持"
+          }
+        }
+      }
+    },
+    "Whether the device reports support for battery measurement." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备报告是否支持电量检测。"
+          }
+        }
+      }
+    },
+    "Device Name" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备名称"
+          }
+        }
+      }
+    },
+    "The name assigned to this device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你为这台设备设置的名称。"
+          }
+        }
+      }
+    },
+    "Device Type" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备类型"
+          }
+        }
+      }
+    },
+    "The device family, such as iPhone or iPad." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备所属类型，例如 iPhone 或 iPad。"
+          }
+        }
+      }
+    },
+    "Hardware Model Identifier" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "硬件型号代码"
+          }
+        }
+      }
+    },
+    "Apple’s internal hardware model identifier." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple 用于区分硬件型号的代码。"
+          }
+        }
+      }
+    },
+    "Hardware Board Model" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "硬件主板型号"
+          }
+        }
+      }
+    },
+    "The device’s internal board model." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备内部使用的主板型号。"
+          }
+        }
+      }
+    },
+    "The operating system version installed on the device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备当前安装的操作系统版本。"
+          }
+        }
+      }
+    },
+    "System Build" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统构建版本"
+          }
+        }
+      }
+    },
+    "The build identifier of the installed operating system." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前系统的具体构建编号，用于区分同一版本的不同构建。"
+          }
+        }
+      }
+    },
+    "The device’s serial number." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台设备的序列号。"
+          }
+        }
+      }
+    },
+    "Model Number" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "产品型号"
+          }
+        }
+      }
+    },
+    "The product’s model or part number." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备的产品型号或部件编号。"
+          }
+        }
+      }
+    },
+    "Sales Region Code" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "销售地区代码"
+          }
+        }
+      }
+    },
+    "The product’s sales region code." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于标识产品销售地区的代码。"
+          }
+        }
+      }
+    },
+    "Activation Status" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "激活状态"
+          }
+        }
+      }
+    },
+    "Whether the device has completed activation." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否已经完成激活。"
+          }
+        }
+      }
+    },
+    "Screen Lock Passcode" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁屏密码"
+          }
+        }
+      }
+    },
+    "Whether a device passcode is configured; the password itself is not read." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否设置了锁屏密码，不会读取密码内容。"
+          }
+        }
+      }
+    },
+    "Computer Trust" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电脑信任状态"
+          }
+        }
+      }
+    },
+    "Whether the device reports that this computer is trusted." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否报告已信任当前电脑。"
+          }
+        }
+      }
+    },
+    "Processor Architecture" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "处理器架构"
+          }
+        }
+      }
+    },
+    "The instruction-set architecture used by the processor." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "处理器采用的指令集类型，例如 arm64 表示 64 位 ARM。"
+          }
+        }
+      }
+    },
+    "Wi-Fi Hardware Address" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wi-Fi 硬件地址"
+          }
+        }
+      }
+    },
+    "The hardware address of the Wi-Fi interface." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wi-Fi 网卡的硬件标识地址。"
+          }
+        }
+      }
+    },
+    "Bluetooth Hardware Address" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蓝牙硬件地址"
+          }
+        }
+      }
+    },
+    "The hardware address of the Bluetooth interface." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蓝牙接口的硬件标识地址。"
+          }
+        }
+      }
+    },
+    "Ethernet Hardware Address" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以太网硬件地址"
+          }
+        }
+      }
+    },
+    "The hardware address of the Ethernet interface." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以太网接口的硬件标识地址。"
+          }
+        }
+      }
+    },
+    "Device Identifier" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备唯一标识"
+          }
+        }
+      }
+    },
+    "The identifier used to associate a device with its backups." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于识别这台设备并匹配备份的唯一标识。"
+          }
+        }
+      }
+    },
+    "Time Zone" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时区"
+          }
+        }
+      }
+    },
+    "The time zone configured on the device." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备当前设置的时区。"
+          }
+        }
+      }
+    },
+    "Device Date and Time" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备日期与时间"
+          }
+        }
+      }
+    },
+    "The device’s reported clock time." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备报告的当前日期和时间。"
+          }
+        }
+      }
+    },
+    "Cellular Support" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蜂窝通信支持"
+          }
+        }
+      }
+    },
+    "Whether the device supports cellular telephony." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备是否支持蜂窝通信功能。"
+          }
+        }
+      }
+    },
+    "Modem Firmware" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调制解调器固件"
+          }
+        }
+      }
+    },
+    "The firmware version of the cellular modem." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蜂窝通信模块使用的固件版本。"
+          }
+        }
+      }
+    },
+    "IMEI" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蜂窝设备识别码（IMEI）"
+          }
+        }
+      }
+    },
+    "The mobile network equipment identifier." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动网络使用的设备识别码。"
+          }
+        }
+      }
+    },
+    "Secondary IMEI" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第二蜂窝设备识别码（IMEI）"
+          }
+        }
+      }
+    },
+    "The secondary mobile network equipment identifier." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第二个移动网络设备识别码。"
+          }
+        }
+      }
+    },
+    "Unknown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
+          }
+        }
+      }
+    },
+    "Yes" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是"
+          }
+        }
+      }
+    },
+    "No" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "否"
+          }
+        }
+      }
+    },
+    "Charging" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在充电"
+          }
+        }
+      }
+    },
+    "Not Charging" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未充电"
+          }
+        }
+      }
+    },
+    "Connected" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已连接"
+          }
+        }
+      }
+    },
+    "Not Connected" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未连接"
+          }
+        }
+      }
+    },
+    "Supported" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持"
+          }
+        }
+      }
+    },
+    "Not Supported" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不支持"
+          }
+        }
+      }
+    },
+    "Charge Complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已充满"
+          }
+        }
+      }
+    },
+    "Not Fully Charged" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未充满"
+          }
+        }
+      }
+    },
+    "Passcode Set" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已设置"
+          }
+        }
+      }
+    },
+    "No Passcode Set" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未设置"
+          }
+        }
+      }
+    },
+    "Computer Trusted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已信任当前电脑"
+          }
+        }
+      }
+    },
+    "Computer Not Trusted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未信任当前电脑"
+          }
+        }
+      }
+    },
+    "Activated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已激活"
+          }
+        }
+      }
+    },
+    "Not Activated" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未激活"
+          }
+        }
+      }
+    },
+    "Activation Required" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要激活"
+          }
+        }
+      }
+    },
+    "Storage Statistics Complete" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "统计已完成"
+          }
+        }
+      }
+    },
+    "Storage Statistics Unavailable" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂未返回统计结果"
+          }
+        }
+      }
+    },
+    "Internal Diagnostics Received" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已收到内部诊断记录"
+          }
+        }
+      }
+    },
+    "Meaning" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说明"
+          }
+        }
+      }
+    },
+    "Information Item" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信息项目"
+          }
+        }
+      }
+    },
+    "Current Value" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前信息"
+          }
+        }
+      }
+    },
+    "Latest Completed Backup" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近一次已完成备份"
+          }
+        }
+      }
+    },
+    "No Completed Backups" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无已完成的备份"
+          }
+        }
+      }
+    },
+    "Restore Backup…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复备份…"
           }
         }
       }

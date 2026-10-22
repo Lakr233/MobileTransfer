@@ -37,18 +37,19 @@ mkdir -p "$AUX_BINARY_DIR"
 
 if [ "$CODE_SIGNING_ALLOWED" = "NO" ] || [ -z "$EXPANDED_CODE_SIGN_IDENTITY" ]; then
     echo "[*] using ad-hoc signing for CODE_SIGNING_ALLOWED=$CODE_SIGNING_ALLOWED"
-    EXPANDED_CODE_SIGN_IDENTITY="-"
-elif [ -n "$EXPANDED_CODE_SIGN_IDENTITY_NAME" ]; then
-    echo "[*] overwrite CODE_SIGN_IDENTITY to $EXPANDED_CODE_SIGN_IDENTITY_NAME"
-    CODE_SIGN_IDENTITY="$EXPANDED_CODE_SIGN_IDENTITY_NAME"
+    codesign --force --sign - -o runtime "$BINARY_CACHE"
+else
+    if [ -n "$EXPANDED_CODE_SIGN_IDENTITY_NAME" ]; then
+        echo "[*] overwrite CODE_SIGN_IDENTITY to $EXPANDED_CODE_SIGN_IDENTITY_NAME"
+        CODE_SIGN_IDENTITY="$EXPANDED_CODE_SIGN_IDENTITY_NAME"
+    fi
+    codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" \
+        --entitlements "$PROJECT_DIR/MobileTransfer/Entitlements-Subprocess.entitlements" \
+        -o runtime \
+        "$BINARY_CACHE"
 fi
 
 MOBILE_INSTALL_TARGET="$AUX_BINARY_DIR/MobileInstall"
-codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" \
-    --entitlements "$PROJECT_DIR/MobileTransfer/Entitlements-Subprocess.entitlements" \
-    -o runtime \
-    "$BINARY_CACHE"
-
 cp "$BINARY_CACHE" "$MOBILE_INSTALL_TARGET"
 
 echo "[*] done $0"

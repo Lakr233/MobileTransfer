@@ -38,7 +38,7 @@ struct RestorePasswordView: View {
                         .disableAutocorrection(true)
                         .textFieldStyle(.plain)
                         .padding(inset)
-                        .background(RoundedRectangle(cornerRadius: 4).foregroundStyle(.accent.opacity(0.1)))
+                        .background(RoundedRectangle(cornerRadius: 4).foregroundStyle(Color.accentColor.opacity(0.1)))
                         .padding(.horizontal, -inset)
                 }
 
@@ -47,7 +47,7 @@ struct RestorePasswordView: View {
             } label: {
                 Text("Forgot password?")
                     .underline()
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(.tint)
             }
             .buttonStyle(.plain)
         }

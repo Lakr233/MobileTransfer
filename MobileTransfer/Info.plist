@@ -10,18 +10,18 @@
 				<string>mobiletransfer</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>MobileTransfer</string>
+			<string>iTM</string>
 			<key>CFBundleTypeIconSystemGenerated</key>
 			<integer>1</integer>
 			<key>CFBundleTypeName</key>
-			<string>MobileTransferPackage</string>
+			<string>iTM Backup Package</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>wiki.qaq.mobiletransfer.package</string>
+				<string>tech.nootag.itm.backup</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
@@ -39,22 +39,22 @@
 				<string>com.apple.package</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>MobileTransfer File Package</string>
+			<string>iTM Backup Package</string>
 			<key>UTTypeIconFile</key>
-			<string>MobileTransfer</string>
+			<string>iTM</string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBackgroundName</key>
-				<string>MobileTransfer</string>
+				<string>iTM</string>
 				<key>UTTypeIconBadgeName</key>
-				<string>MobileTransfer</string>
+				<string>iTM</string>
 				<key>UTTypeIconText</key>
-				<string>MobileTransfer File Package</string>
+				<string>iTM Backup Package</string>
 			</dict>
 			<key>UTTypeIdentifier</key>
-			<string>wiki.qaq.mobiletransfer.package</string>
+			<string>tech.nootag.itm.backup</string>
 			<key>UTTypeReferenceURL</key>
-			<string>https://github.com/Lakr233/MobileTransfer</string>
+			<string>https://github.com/Sunbelife/iTM</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

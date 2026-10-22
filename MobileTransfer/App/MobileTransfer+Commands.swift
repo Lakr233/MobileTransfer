@@ -46,39 +46,5 @@ extension MobileTransfer {
                 }
             }
         }
-        CommandMenu("License") {
-            Group {
-                if vm.licenseInfo == nil || vm.isLicenseTrail {
-                    Button("Activate License...") {
-                        openLicensePage = true
-                    }
-                } else {
-                    Button("License Information...") {
-                        openLicensePage = true
-                    }
-                }
-                if vm.page != .welcome {
-                    Divider()
-                    Button("Menu Disabled: Application In Use") {}
-                }
-            }
-            .disabled(vm.page != .welcome)
-            .disabled(openLicensePage)
-        }
-        if vm.page == .prepareBackup, vm.deviceIdentifier != nil {
-            CommandMenu("Advanced") {
-                if vm.showAppPackageDownloadPanel {
-                    Button("Hide Download App Option (Experimental)") {
-                        vm.showAppPackageDownloadPanel = false
-                        vm.backupApps = false
-                    }
-                } else {
-                    Button("Show Download App Option (Experimental)") {
-                        vm.showAppPackageDownloadPanel = true
-                        vm.backupApps = true
-                    }
-                }
-            }
-        }
     }
 }

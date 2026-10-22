@@ -1,0 +1,57 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build (${{ matrix.platform }})
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macOS
+            destination: "generic/platform=macOS"
+          - platform: Mac Catalyst
+            destination: "generic/platform=macOS,variant=Mac Catalyst"
+          - platform: iOS
+            destination: "generic/platform=iOS"
+          - platform: iOS Simulator
+            destination: "generic/platform=iOS Simulator"
+          - platform: tvOS
+            destination: "generic/platform=tvOS"
+          - platform: tvOS Simulator
+            destination: "generic/platform=tvOS Simulator"
+          - platform: visionOS
+            destination: "generic/platform=xrOS"
+          - platform: visionOS Simulator
+            destination: "generic/platform=xrOS Simulator"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Swift 6.2 toolchain
+        run: sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
+
+      - name: Report runner toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild -scheme ApplePackage \
+            -destination "${{ matrix.destination }}" \
+            build 2>&1 | xcbeautify
+
+      - name: Run offline unit tests
+        if: matrix.platform == 'macOS'
+        run: swift test --filter 'ApplePackageAccountTests|ApplePackageConfigurationTests|LockedStateTests|SAPAuthenticationRequestTests|SAPSyntheticTests|SAPValidationTests|SAPHandshakeTests|StoreDownloadRecoveryTests|LoginArgumentsTests'

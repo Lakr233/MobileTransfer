@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Release
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Swift 6.2 toolchain
+        run: sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
+
+      - name: Report runner toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: Build command-line tool
+        run: swift build -c release --product ApplePackageTool
+
+      - name: Package artifact
+        run: |
+          set -euo pipefail
+
+          product_name="ApplePackageTool"
+          safe_ref="${GITHUB_REF_NAME//\//-}"
+          arch="$(uname -m)"
+          artifact_name="${product_name}-${safe_ref}-macos-${arch}"
+          artifact_dir="${RUNNER_TEMP}/${artifact_name}"
+          build_dir="$(swift build -c release --show-bin-path)"
+          binary_path="${build_dir}/${product_name}"
+          resources="${build_dir}/ApplePackage_ApplePackage.bundle"
+
+          if [[ ! -x "${binary_path}" ]]; then
+            echo "::error::Built binary ${product_name} was not found"
+            exit 1
+          fi
+          if [[ ! -d "${resources}" ]]; then
+            echo "::error::ApplePackage resource bundle was not found"
+            exit 1
+          fi
+
+          xcrun vtool -show-build "${binary_path}"
+          if ! xcrun vtool -show-build "${binary_path}" | grep -Eq 'minos 11\.0$'; then
+            echo "::error::ApplePackageTool must target macOS 11.0"
+            exit 1
+          fi
+
+          mkdir -p "${artifact_dir}"
+          cp "${binary_path}" "${artifact_dir}/${product_name}"
+          cp -R "${resources}" "${artifact_dir}/"
+
+          # macOS 11 needs the back-deployed Swift concurrency runtime.
+          xcrun swift-stdlib-tool --copy \
+            --scan-executable "${artifact_dir}/${product_name}" \
+            --platform macosx \
+            --destination "${artifact_dir}" \
+            --sign -
+          install_name_tool -add_rpath '@executable_path' "${artifact_dir}/${product_name}"
+          codesign --force --sign - "${artifact_dir}/${product_name}"
+          "${artifact_dir}/${product_name}" --help
+
+          printf '%s\n' \
+            "Requires macOS 11 or later." \
+            "Keep ApplePackage_ApplePackage.bundle next to ApplePackageTool; it contains the SAP static tables." \
+            "Keep the bundled Swift runtime libraries next to ApplePackageTool for compatibility with older macOS versions." \
+            > "${artifact_dir}/README.txt"
+
+          (cd "${RUNNER_TEMP}" && ditto -c -k --sequesterRsrc --keepParent "${artifact_name}" "${GITHUB_WORKSPACE}/${artifact_name}.zip")
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1 || \
+            gh release create "${GITHUB_REF_NAME}" \
+              --title "${GITHUB_REF_NAME}" \
+              --notes "Release ${GITHUB_REF_NAME}"
+
+      - name: Upload release artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          safe_ref="${GITHUB_REF_NAME//\//-}"
+          arch="$(uname -m)"
+          gh release upload "${GITHUB_REF_NAME}" \
+            "ApplePackageTool-${safe_ref}-macos-${arch}.zip" \
+            --clobber

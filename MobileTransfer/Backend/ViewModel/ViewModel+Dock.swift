@@ -32,7 +32,7 @@ extension ViewModel {
             DockProgress.style = .squircle(color: taskSuccess ? .green : .orange)
             DockProgress.progress = 1
         } else {
-            DockProgress.style = .squircle(color: .accent)
+            DockProgress.style = .squircle()
             DockProgress.progress = overallProgress.fractionCompleted
         }
     }

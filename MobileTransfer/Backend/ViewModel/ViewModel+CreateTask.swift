@@ -26,6 +26,7 @@ extension ViewModel {
             backupAppList: backupApplicationList
         )
         let task = BackupTask(parameter: parameter)
+        Archives.trackBackup(at: parameter.backupLocation)
         backupTask = task
 
         bindProgressToDock()
@@ -96,8 +97,11 @@ extension ViewModel {
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 
-    func pickSaveLocation() {
-        guard let window = NSApp.windows.first else { return }
+    func pickSaveLocation(completion: ((Bool) -> Void)? = nil) {
+        guard let window = NSApp.mainWindow ?? NSApp.windows.first else {
+            completion?(false)
+            return
+        }
 
         let currentURL = URL(fileURLWithPath: backupLocation)
         let currentName = currentURL.lastPathComponent
@@ -112,17 +116,29 @@ extension ViewModel {
         panel.message = NSLocalizedString("Choose a Location to Save Backup", comment: "")
 
         panel.beginSheetModal(for: window) { response in
-            guard response == .OK, let newUrl = panel.url else { return }
-            try? FileManager.default.createDirectory(
-                at: newUrl,
-                withIntermediateDirectories: true
-            )
-            self.backupLocation = newUrl.path
+            guard response == .OK, let newUrl = panel.url else {
+                completion?(false)
+                return
+            }
+            do {
+                guard !FileManager.default.fileExists(atPath: newUrl.path) else {
+                    throw CocoaError(.fileWriteFileExists)
+                }
+                try FileManager.default.createDirectory(
+                    at: newUrl,
+                    withIntermediateDirectories: false
+                )
+                self.backupLocation = newUrl.path
+                completion?(true)
+            } catch {
+                NSAlert(error: error).beginSheetModal(for: window)
+                completion?(false)
+            }
         }
     }
 
     func pickRestoreArchive() {
-        guard let window = NSApp.windows.first else { return }
+        guard let window = NSApp.keyWindow else { return }
 
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
@@ -132,7 +148,7 @@ extension ViewModel {
         panel.canCreateDirectories = false
         panel.message = NSLocalizedString("Choose Backup Archive to Restore", comment: "")
 
-        if let type = UTType("wiki.qaq.mobiletransfer.package") {
+        if let type = UTType("tech.nootag.itm.backup") {
             panel.allowedContentTypes = [type]
         } else {
             assertionFailure()
@@ -140,7 +156,8 @@ extension ViewModel {
 
         panel.beginSheetModal(for: window) { response in
             guard response == .OK, let url = panel.url else { return }
-            guard self.validateRestoreArchive(at: url) else {
+            let info = Archives.validateRestoreArchive(at: url)
+            guard info.verified else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     let alert = NSAlert()
                     alert.messageText = NSLocalizedString("Invalid Archive", comment: "")
@@ -151,7 +168,11 @@ extension ViewModel {
                 }
                 return
             }
+            self.restoreArchiveIsPasswordProtected = info.isEncrypted
+            self.restoreApplicationsCount = info.applications
+            self.restoreArchiveSystemBuildVersion = info.systemBuildVersion
             self.restoreLocation = url.path
+            Archives.rememberCompletedBackup(at: url)
         }
     }
 

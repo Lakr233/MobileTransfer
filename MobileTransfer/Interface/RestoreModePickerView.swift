@@ -75,7 +75,7 @@ struct RestoreModePickerView: View {
             } label: {
                 Text("Need help?")
                     .underline()
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(.tint)
             }
             .buttonStyle(.plain)
             .sheet(isPresented: $openInfo) {

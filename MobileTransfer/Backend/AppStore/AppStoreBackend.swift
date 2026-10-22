@@ -8,6 +8,7 @@
 import ApplePackage
 import Foundation
 import Observation
+import Security
 
 @Observable
 class AppStoreBackend {
@@ -21,35 +22,63 @@ class AppStoreBackend {
     }
 
     @ObservationIgnored
-    private var _accounts = StoredValue(key: "AppStore.Accounts", defaultValue: [Account]())
+    private var _accounts: [Account] = []
     var accounts: [Account] {
         get {
             access(keyPath: \.accounts)
-            return _accounts.get()
+            return _accounts
         }
         set {
             withMutation(keyPath: \.accounts) {
-                _accounts.set(newValue)
+                _accounts = newValue
             }
         }
     }
 
     static let shared = AppStoreBackend()
-    private init() {}
+    private init() {
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "tech.nootag.itm.AppStore", kSecAttrAccount as String: "accounts",
+            kSecReturnData as String: true, kSecMatchLimit as String: kSecMatchLimitOne]
+        var result: CFTypeRef?
+        if SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
+           let data = result as? Data, let saved = try? JSONDecoder().decode([Account].self, from: data) {
+            _accounts = saved
+        }
+        // Discard the legacy UserDefaults credential cache.
+        UserDefaults.standard.removeObject(forKey: "AppStore.Accounts")
+    }
 
-    func save(email: String, password: String, appleAccount: ApplePackage.Account) {
+    private func persist(_ value: [Account]) throws {
+        let data = try JSONEncoder().encode(value)
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "tech.nootag.itm.AppStore", kSecAttrAccount as String: "accounts"]
+        let attributes = [kSecValueData as String: data]
+        var status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+        if status == errSecItemNotFound {
+            var item = query
+            item[kSecValueData as String] = data
+            item[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+            status = SecItemAdd(item as CFDictionary, nil)
+        }
+        guard status == errSecSuccess else { throw NSError(domain: NSOSStatusErrorDomain, code: Int(status)) }
+        accounts = value
+    }
+
+    func save(email: String, password: String, appleAccount: ApplePackage.Account) throws {
         let countryCode = Configuration.countryCode(for: appleAccount.store) ?? "US"
-        accounts = accounts
+        let updated = accounts
             .filter { $0.email.lowercased() != email.lowercased() }
             + [.init(email: email, password: password, countryCode: countryCode, appleAccount: appleAccount)]
+        try persist(updated)
     }
 
     func delete(id: Account.ID) {
-        accounts = accounts.filter { $0.id != id }
+        try? persist(accounts.filter { $0.id != id })
     }
 
     func delete(email: String) {
-        accounts = accounts.filter { $0.email != email }
+        try? persist(accounts.filter { $0.email != email })
     }
 
     func updateAllAccountTokens() {
@@ -57,7 +86,7 @@ class AppStoreBackend {
         let sem = DispatchSemaphore(value: 3)
         let group = DispatchGroup()
         let accounts = accounts
-        for account in accounts {
+        for account in accounts where !account.password.isEmpty {
             group.enter()
             DispatchQueue.global().async {
                 defer {
@@ -86,7 +115,7 @@ class AppStoreBackend {
                 guard let appleAccount else { return }
 
                 DispatchQueue.main.asyncAndWait {
-                    self.save(email: email, password: password, appleAccount: appleAccount)
+                    try? self.save(email: email, password: password, appleAccount: appleAccount)
                 }
             }
             sem.wait()

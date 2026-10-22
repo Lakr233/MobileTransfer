@@ -17,8 +17,29 @@ struct CardContentView<V: View>: View {
         }
         .frame(maxWidth: .infinity)
         .padding(16)
-        .background(.background.opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(Color(nsColor: .controlBackgroundColor), in: .rect(cornerRadius: 12))
+        .overlay {
+            RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(.primary.opacity(0.08), lineWidth: 1)
+        }
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func itmGlassSurface(cornerRadius: CGFloat, interactive: Bool = false) -> some View {
+        if #available(macOS 26.0, *) {
+            glassEffect(
+                interactive ? .regular.interactive() : .regular,
+                in: .rect(cornerRadius: cornerRadius)
+            )
+        } else {
+            background(.regularMaterial, in: RoundedRectangle(cornerRadius: cornerRadius))
+                .overlay {
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .strokeBorder(.primary.opacity(0.08), lineWidth: 1)
+                }
+        }
     }
 }
 
